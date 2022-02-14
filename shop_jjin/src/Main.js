@@ -1,10 +1,10 @@
 /* eslint-disable */
 
-import "./App.css";
+import "./style/Main.css";
 import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
 import React, { useState } from "react";
-import Data from "./data";
-import Detail from "./Detail";
+import Data from "./data/data";
+import Detail from "./view/Detail";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 
 function App() {
