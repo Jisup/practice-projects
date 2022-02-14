@@ -25,3 +25,12 @@ $메인칼라: #000000;
 .my-alert p {
   margin-bottom: 0;
 }
+
+.wow-enter {
+  opacity: 0;
+}
+
+.wow-enter-active {
+  opacity: 1;
+  transition: all 500ms;
+}

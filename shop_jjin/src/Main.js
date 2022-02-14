@@ -2,11 +2,13 @@
 
 import "./style/Main.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Data from "./data/data";
 import Detail from "./view/Detail";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
+
+let 재고context = React.createContext();
 
 function App() {
   /*
@@ -14,6 +16,7 @@ function App() {
     - 사용시 상태값과 그 상태값을 변경할 수 있는 setter 함수가 만들어진다
   */
   let [shoes, shoes변경] = useState(Data);
+  let [재고, 재고변경] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -44,11 +47,13 @@ function App() {
             </p>
           </div>
           <div className="container">
-            <div className="row">
-              {shoes.map((shoe, idx) => {
-                return <Card key={idx} shoe={shoe}></Card>;
-              })}
-            </div>
+            <재고context.Provider value={재고}>
+              <div className="row">
+                {shoes.map((shoe, idx) => {
+                  return <Card key={idx} shoe={shoe}></Card>;
+                })}
+              </div>
+            </재고context.Provider>
             <button
               className="btn btn-primary"
               onClick={() => {
@@ -68,7 +73,7 @@ function App() {
         </Route>
 
         <Route path="/detail/:id">
-          <Detail shoes={shoes} />
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
         </Route>
 
         <Route path="/:id">
@@ -80,7 +85,7 @@ function App() {
 }
 
 function Card(props) {
-  let history = useHistory();
+  let 재고 = useContext(재고context);
 
   return (
     <div className="col-md-4">
@@ -99,6 +104,7 @@ function Card(props) {
       <p>
         {props.shoe.content} & {props.shoe.price}원
       </p>
+      <p>{재고[props.shoe.id]}</p>
     </div>
   );
 }

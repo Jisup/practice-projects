@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-// import styled from "styled-components";
+import { Nav } from "react-bootstrap";
 import "../style/Detail.scss";
+import { CSSTransition } from "react-transition-group";
 
+// import styled from "styled-components";
 // styled-components 사용
 // let 박스 = styled.div`
 //   padding: 20px;
@@ -20,6 +22,10 @@ function Detail(props) {
   let { id } = useParams();
 
   let [alert, setalert] = useState(true);
+  let [탭, 탭변경] = useState(0);
+  let [스위치, 스위치변경] = useState(false);
+
+  const nodeRef = React.useRef(null);
 
   /*
     useEffect 렌더링될 때마다 어떠한 작업을 수행하기 위한 Hook
@@ -69,7 +75,15 @@ function Detail(props) {
           </h4>
           <p>{props.shoes.find((상품) => 상품.id == id).content}</p>
           <p>{props.shoes.find((상품) => 상품.id == id).price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <Info 재고={props.재고}></Info>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              props.재고변경([9, 11, 12]);
+            }}
+          >
+            주문하기
+          </button>
           &nbsp;
           <button
             className="btn btn-danger"
@@ -81,8 +95,66 @@ function Detail(props) {
           </button>
         </div>
       </div>
+
+      <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-0"
+            onClick={() => {
+              스위치변경(false);
+              탭변경(0);
+            }}
+          >
+            Option 1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-1"
+            onClick={() => {
+              스위치변경(false);
+              탭변경(1);
+            }}
+          >
+            Option 2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+      <CSSTransition
+        nodeRef={nodeRef}
+        in={스위치}
+        classNames="wow"
+        timeout={500}
+      >
+        <div ref={nodeRef}>
+          <TabContent
+            탭={탭}
+            스위치={스위치}
+            스위치변경={스위치변경}
+          ></TabContent>
+        </div>
+      </CSSTransition>
     </div>
   );
+}
+
+function TabContent(props) {
+  useEffect(() => {
+    props.스위치변경(true);
+  });
+
+  if (props.탭 === 0) {
+    return <div>내용0</div>;
+  } else if (props.탭 === 1) {
+    return <div>내용1</div>;
+  } else if (props.탭 === 2) {
+    return <div>내용2</div>;
+  }
+}
+
+function Info(props) {
+  return <p>재고 : {props.재고[0]}</p>;
 }
 
 export default Detail;
