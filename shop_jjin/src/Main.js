@@ -1,11 +1,12 @@
 /* eslint-disable */
 
 import "./style/Main.css";
-import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import React, { useState } from "react";
 import Data from "./data/data";
 import Detail from "./view/Detail";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
+import axios from "axios";
 
 function App() {
   /*
@@ -25,21 +26,6 @@ function App() {
               <Nav.Link as={Link} to="/">
                 Home
               </Nav.Link>
-              {/* &nbsp;
-              <Link to="detail">Detail</Link> 
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -63,6 +49,21 @@ function App() {
                 return <Card key={idx} shoe={shoe}></Card>;
               })}
             </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                axios
+                  .get("https://codingapple1.github.io/shop/data2.json")
+                  .then((res) => {
+                    shoes변경([...shoes, ...res.data]);
+                  })
+                  .catch(() => {
+                    console.log("실패");
+                  });
+              }}
+            >
+              더보기
+            </button>
           </div>
         </Route>
 
