@@ -5,17 +5,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import "../style/Detail.scss";
 import { CSSTransition } from "react-transition-group";
-
-// import styled from "styled-components";
-// styled-components 사용
-// let 박스 = styled.div`
-//   padding: 20px;
-// `;
-
-// let 제목 = styled.h4`
-//   font-size: 25px;
-//   color: ${(props) => props.색상};
-// `;
+import { connect, useDispatch, useSelector } from "react-redux";
 
 function Detail(props) {
   let history = useHistory();
@@ -26,6 +16,10 @@ function Detail(props) {
   let [스위치, 스위치변경] = useState(false);
 
   const nodeRef = React.useRef(null);
+
+  let findProduct = props.shoes.find((상품) => 상품.id == id);
+
+  let dispatch = useDispatch();
 
   /*
     useEffect 렌더링될 때마다 어떠한 작업을 수행하기 위한 Hook
@@ -41,7 +35,6 @@ function Detail(props) {
     }, 1500);
 
     return () => {
-      console.log("사라졌군");
       clearTimeout(timer);
     };
   }, [alert]);
@@ -70,16 +63,22 @@ function Detail(props) {
           />
         </div>
         <div className="col-md-6 mt-4">
-          <h4 className="pt-5">
-            {props.shoes.find((상품) => 상품.id == id).title}
-          </h4>
-          <p>{props.shoes.find((상품) => 상품.id == id).content}</p>
-          <p>{props.shoes.find((상품) => 상품.id == id).price}원</p>
-          <Info 재고={props.재고}></Info>
+          <h4 className="pt-5">{findProduct.title}</h4>
+          <p>{findProduct.content}</p>
+          <p>{findProduct.price}원</p>
+          <Info 재고={props.재고} id={findProduct.id}></Info>
           <button
             className="btn btn-danger"
             onClick={() => {
               props.재고변경([9, 11, 12]);
+              dispatch({
+                type: "항목추가",
+                payload: {
+                  title: findProduct.title,
+                  quan: 1,
+                },
+              });
+              history.push("/cart");
             }}
           >
             주문하기
@@ -105,7 +104,7 @@ function Detail(props) {
               탭변경(0);
             }}
           >
-            Option 1
+            상품설명
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -116,7 +115,7 @@ function Detail(props) {
               탭변경(1);
             }}
           >
-            Option 2
+            배송정보
           </Nav.Link>
         </Nav.Item>
       </Nav>
@@ -154,7 +153,14 @@ function TabContent(props) {
 }
 
 function Info(props) {
-  return <p>재고 : {props.재고[0]}</p>;
+  return <p>재고 : {props.재고[props.id]}</p>;
 }
+
+// function state를props화(state) {
+//   return {
+//     state: state.reducer,
+//   };
+// }
+// export default connect(state를props화)(Detail);
 
 export default Detail;

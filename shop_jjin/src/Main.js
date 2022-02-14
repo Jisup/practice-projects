@@ -7,6 +7,7 @@ import Data from "./data/data";
 import Detail from "./view/Detail";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
+import Cart from "./view/Cart";
 
 let 재고context = React.createContext();
 
@@ -22,12 +23,17 @@ function App() {
     <div className="App">
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+            ShoeShop
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/">
                 Home
+              </Nav.Link>
+              <Nav.Link as={Link} to="/cart">
+                Cart
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -76,6 +82,10 @@ function App() {
           <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
         </Route>
 
+        <Route path="/cart">
+          <Cart></Cart>
+        </Route>
+
         <Route path="/:id">
           <div>아무거나적었을때</div>
         </Route>
@@ -86,25 +96,28 @@ function App() {
 
 function Card(props) {
   let 재고 = useContext(재고context);
+  let history = useHistory();
 
   return (
-    <div className="col-md-4">
-      {" "}
-      <Link to={"/detail/" + props.shoe.id}>
-        <img
-          src={
-            "https://codingapple1.github.io/shop/shoes" +
-            (props.shoe.id + 1) +
-            ".jpg"
-          }
-          width="100%"
-        />{" "}
-      </Link>
+    <div
+      className="col-md-4"
+      onClick={() => {
+        history.push("/detail/" + props.shoe.id);
+      }}
+    >
+      <img
+        src={
+          "https://codingapple1.github.io/shop/shoes" +
+          (props.shoe.id + 1) +
+          ".jpg"
+        }
+        width="100%"
+      />
       <h4>{props.shoe.title}</h4>
       <p>
         {props.shoe.content} & {props.shoe.price}원
       </p>
-      <p>{재고[props.shoe.id]}</p>
+      <p>재고 : {재고[props.shoe.id]}</p>
     </div>
   );
 }
