@@ -2,14 +2,15 @@
 
 import "./style/Main.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import React, { useContext, useEffect, useState } from "react";
-import Data from "./data/data";
-import Detail from "./view/Detail";
+import React, { useState, lazy, Suspense } from "react";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
-import axios from "axios";
-import Cart from "./view/Cart";
 import { useSelector } from "react-redux";
-
+import axios from "axios";
+import Data from "./data/data";
+// import Detail from "./view/Detail";
+let Detail = lazy(() => import("./view/Detail"));
+// import Cart from "./view/Cart";
+let Cart = lazy(() => import("./view/Cart"));
 function App() {
   /*
     useState 상태(state) 관리를 할 수 있게 해주는 Hook
@@ -77,11 +78,15 @@ function App() {
         </Route>
 
         <Route path="/detail/:id">
-          <Detail shoes={shoes} 재고={state} />
+          <Suspense fallback={<div>로딩중입니다</div>}>
+            <Detail shoes={shoes} 재고={state} />
+          </Suspense>
         </Route>
 
         <Route path="/cart">
-          <Cart></Cart>
+          <Suspense fallback={<div>로딩중입니다</div>}>
+            <Cart></Cart>
+          </Suspense>
         </Route>
 
         <Route path="/:id">
