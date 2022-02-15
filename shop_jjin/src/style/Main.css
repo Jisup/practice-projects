@@ -17,6 +17,25 @@
   color: white;
 }
 
+.recent-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.recent {
+  border: 1px solid black;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 3px;
+  margin: 0 20px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

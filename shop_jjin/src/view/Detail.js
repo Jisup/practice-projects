@@ -39,6 +39,20 @@ function Detail(props) {
     };
   }, [alert]);
 
+  useEffect(() => {
+    var arr = localStorage.getItem("watched");
+    if (arr != null) {
+      arr = JSON.parse(arr);
+    } else {
+      arr = [];
+    }
+    arr.push(findProduct.id);
+    arr = new Set(arr); // 중복 제거를 위함.
+    arr = [...arr];
+    localStorage.setItem("watched", JSON.stringify(arr));
+    props.최근상품변경(arr);
+  }, []);
+
   return (
     <div className="container">
       <div className="title">

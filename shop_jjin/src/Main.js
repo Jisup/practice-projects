@@ -2,7 +2,7 @@
 
 import "./style/Main.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -18,6 +18,19 @@ function App() {
   */
   let [shoes, shoes변경] = useState(Data);
   let state = useSelector((state) => state.reducer3);
+  let [최근상품, 최근상품변경] = useState([]);
+  let history = useHistory();
+
+  useEffect(() => {
+    console.log(shoes);
+    let recent = localStorage.getItem("watched");
+    if (recent != null) {
+      recent = JSON.parse(recent);
+      최근상품변경(recent);
+    } else {
+      recent = [];
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -52,34 +65,58 @@ function App() {
               <Button variant="primary">Learn more</Button>
             </p>
           </div>
-          <div className="container">
-            <div className="row">
-              {shoes.map((shoe, idx) => {
-                return <Card key={idx} shoe={shoe} 재고={state}></Card>;
-              })}
-            </div>
+          <div className="row">
+            <div className="container col-11">
+              <div className="row">
+                {shoes.map((shoe, idx) => {
+                  return <Card key={idx} shoe={shoe} 재고={state}></Card>;
+                })}
+              </div>
 
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                axios
-                  .get("https://codingapple1.github.io/shop/data2.json")
-                  .then((res) => {
-                    shoes변경([...shoes, ...res.data]);
-                  })
-                  .catch(() => {
-                    console.log("실패");
-                  });
-              }}
-            >
-              더보기
-            </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  axios
+                    .get("https://codingapple1.github.io/shop/data2.json")
+                    .then((res) => {
+                      shoes변경([...shoes, ...res.data]);
+                    })
+                    .catch(() => {
+                      console.log("실패");
+                    });
+                }}
+              >
+                더보기
+              </button>
+            </div>
+            <div className="col-1 py-5 recent-wrap">
+              <p>최근 본 상품</p>
+              {최근상품.map((watch, idx) => (
+                <div
+                  key={idx}
+                  className="recent"
+                  onClick={() => {
+                    history.push("/detail/" + watch);
+                  }}
+                >
+                  {shoes[watch].title}
+                  <img
+                    src={
+                      "https://codingapple1.github.io/shop/shoes" +
+                      (watch + 1) +
+                      ".jpg"
+                    }
+                    width="50%"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </Route>
 
         <Route path="/detail/:id">
           <Suspense fallback={<div>로딩중입니다</div>}>
-            <Detail shoes={shoes} 재고={state} />
+            <Detail shoes={shoes} 재고={state} 최근상품변경={최근상품변경} />
           </Suspense>
         </Route>
 
