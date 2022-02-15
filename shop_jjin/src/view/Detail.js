@@ -66,11 +66,15 @@ function Detail(props) {
           <h4 className="pt-5">{findProduct.title}</h4>
           <p>{findProduct.content}</p>
           <p>{findProduct.price}원</p>
-          <Info 재고={props.재고} id={findProduct.id}></Info>
+          <p>재고 : {props.재고[findProduct.id]}</p>
           <button
             className="btn btn-danger"
             onClick={() => {
-              props.재고변경([9, 11, 12]);
+              dispatch({
+                type: "재고감소",
+                payload: findProduct.id,
+              });
+
               dispatch({
                 type: "항목추가",
                 payload: {
@@ -78,6 +82,7 @@ function Detail(props) {
                   quan: 1,
                 },
               });
+
               history.push("/cart");
             }}
           >
@@ -150,10 +155,6 @@ function TabContent(props) {
   } else if (props.탭 === 2) {
     return <div>내용2</div>;
   }
-}
-
-function Info(props) {
-  return <p>재고 : {props.재고[props.id]}</p>;
 }
 
 // function state를props화(state) {

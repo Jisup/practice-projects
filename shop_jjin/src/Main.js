@@ -2,14 +2,13 @@
 
 import "./style/Main.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Data from "./data/data";
 import Detail from "./view/Detail";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import axios from "axios";
 import Cart from "./view/Cart";
-
-let 재고context = React.createContext();
+import { useSelector } from "react-redux";
 
 function App() {
   /*
@@ -17,7 +16,7 @@ function App() {
     - 사용시 상태값과 그 상태값을 변경할 수 있는 setter 함수가 만들어진다
   */
   let [shoes, shoes변경] = useState(Data);
-  let [재고, 재고변경] = useState([10, 11, 12]);
+  let state = useSelector((state) => state.reducer3);
 
   return (
     <div className="App">
@@ -53,13 +52,12 @@ function App() {
             </p>
           </div>
           <div className="container">
-            <재고context.Provider value={재고}>
-              <div className="row">
-                {shoes.map((shoe, idx) => {
-                  return <Card key={idx} shoe={shoe}></Card>;
-                })}
-              </div>
-            </재고context.Provider>
+            <div className="row">
+              {shoes.map((shoe, idx) => {
+                return <Card key={idx} shoe={shoe} 재고={state}></Card>;
+              })}
+            </div>
+
             <button
               className="btn btn-primary"
               onClick={() => {
@@ -79,7 +77,7 @@ function App() {
         </Route>
 
         <Route path="/detail/:id">
-          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
+          <Detail shoes={shoes} 재고={state} />
         </Route>
 
         <Route path="/cart">
@@ -95,7 +93,6 @@ function App() {
 }
 
 function Card(props) {
-  let 재고 = useContext(재고context);
   let history = useHistory();
 
   return (
@@ -117,7 +114,7 @@ function Card(props) {
       <p>
         {props.shoe.content} & {props.shoe.price}원
       </p>
-      <p>재고 : {재고[props.shoe.id]}</p>
+      <p>재고 : {props.재고[props.shoe.id]}</p>
     </div>
   );
 }

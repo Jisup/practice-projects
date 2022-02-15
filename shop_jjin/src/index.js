@@ -18,7 +18,9 @@ let 초기값 = [
 function reducer(state = 초기값, 액션) {
   // state 데이터의 수정방법을 정의
   // reducer는 수정된 state를 반환하는 함수
+
   if (액션.type === "항목추가") {
+    console.log(액션.type);
     let copy = [...state];
     if (copy.find((상품) => 상품.title === 액션.payload.title)) {
       alert("장바구니에 담긴 상품이므로 수량을 증가합니다");
@@ -29,12 +31,15 @@ function reducer(state = 초기값, 액션) {
       temp.id = state.length;
       copy.push(temp);
     }
+    console.log(copy);
     return copy;
   } else if (액션.type === "수량증가") {
+    console.log(액션.type);
     let copy = [...state];
     copy[액션.payload].quan++;
     return copy;
   } else if (액션.type === "수량감소") {
+    console.log(액션.type);
     let copy = [...state];
     if (copy[액션.payload].quan > 0) {
       copy[액션.payload].quan--;
@@ -50,13 +55,34 @@ let alert초기값 = true;
 
 function reducer2(state = alert초기값, 액션) {
   if (액션.type === "열자" || 액션.type === "닫자") {
+    console.log(액션.type);
     let copy = state;
     return !copy;
   }
   return state;
 }
 
-let store = createStore(combineReducers({ reducer, reducer2 }));
+let 재고 = [10, 11, 12];
+
+function reducer3(state = 재고, 액션) {
+  if (액션.type === "재고감소") {
+    console.log(액션.type, 액션.payload);
+    let copy = [...state];
+    console.log(copy, copy[액션.payload]);
+    if (copy[액션.payload] > 0) {
+      copy[액션.payload]--;
+      console.log(copy[액션.payload]);
+    } else {
+      alert("재고가 없습니다");
+    }
+    console.log(copy, "재고감소완료");
+    return copy;
+  }
+  console.log(state, "재고감소실패");
+  return state;
+}
+
+let store = createStore(combineReducers({ reducer, reducer2, reducer3 }));
 
 ReactDOM.render(
   <React.StrictMode>
