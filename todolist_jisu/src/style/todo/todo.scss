@@ -1,0 +1,14 @@
+.todo-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  font-size: 14px;
+  .todo-value {
+    margin-right: 0.75em;
+  }
+  .todo-button {
+    margin: 0.125em 0.25em;
+    font-size: 12px;
+  }
+}
