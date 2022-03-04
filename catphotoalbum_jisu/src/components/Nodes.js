@@ -1,4 +1,4 @@
-export default function Nodes({ $app, initialState, onClick }) {
+export default function Nodes({ $app, initialState, onClick, onBackClick }) {
   this.state = initialState;
   this.$target = document.createElement("div");
   this.$target.className = "Nodes";
@@ -17,29 +17,21 @@ export default function Nodes({ $app, initialState, onClick }) {
             node.type === "FILE"
               ? "./assets/file.png"
               : "./assets/directory.png";
-          return `
-      <div class="Node" data-node-id="${node.id}">
-        <img src="${iconPath}" />
-        <div>${node.name}</div>
-      </div>
-      `;
+          return `<div class="Node">
+          <img src="${iconPath}"/>
+          <div>${node.name}</div>
+        </div>`;
         })
         .join("");
+      this.$target.innerHTML = !this.state.isRoot
+        ? `
+            <div class="Node">
+              <img src="./assets/prev.png />
+            </div>${nodesTemplate}
+          `
+        : nodesTemplate;
     }
-    //렌더링 된 이후, 모든 클릭가능한 요소에 이벤트 추가
-    this.$target.querySelectorAll(".Node").forEach(($node) => {
-      $node.addEventListener("click", (e) => {
-        //dataset을 통해 [data-]로 시작하는 attribute를 꺼내 올 수 있음
-        const { nodeId } = e.target.dataset;
-        const selectedNode = this.state.nodes.find(
-          (node) => node.id === nodeId
-        );
-        if (selectedNode) {
-          this.onClick(selectedNode);
-        }
-      });
-    });
-    //이벤트 요소 추가 후 재 랜더링
-    this.render();
   };
+
+  this.render();
 }

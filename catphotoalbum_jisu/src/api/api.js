@@ -5,20 +5,33 @@
 const API_END_POINT =
   "https://zl3m4qq0l9.execute-api.ap-northeast-2.amazonaws.com/dev";
 
-export const request_ok = (nodeId) => {
+export const request = async (nodeId) => {
+  try {
+    const res = await fetch(`${API_END_POINT}/${nodeId ? nodeId : ""}`);
+    if (!res.ok) {
+      throw new Error("Server is Dangerous");
+    }
+    return await res.json();
+  } catch (e) {
+    throw new Error(`Something is wrong! ${e.message}`);
+  }
+};
+
+export const request_chain = (nodeId) => {
   fetch(`${API_END_POINT}/${nodeId ? nodeId : ""}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Server Error");
       }
+      console.log(response.json());
       return response.json();
     })
     .catch((e) => {
-      throw new Error(`Somthing is wrong! ${e.message}`);
+      throw new Error(`Something is wrong! ${e.message}`);
     });
 };
 
-export const request_switch = (nodeId) => {
+export const request_switch = async (nodeId) => {
   try {
     const res = await fetch(`${API_END_POINT}/${nodeId ? nodeId : ""}`);
     switch (res / 100) {
@@ -34,4 +47,14 @@ export const request_switch = (nodeId) => {
   } catch (e) {
     throw new Error(`${e.message}`);
   }
+};
+
+const api = {
+  fetchRoot() {
+    return request();
+  },
+
+  fetchDirectory(nodeId) {
+    return request(nodeId);
+  },
 };
