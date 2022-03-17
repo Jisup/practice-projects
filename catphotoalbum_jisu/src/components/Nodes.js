@@ -9,6 +9,9 @@ export default function Nodes({ $app, initialState, onClick, onBackClick }) {
     this.render();
   };
 
+  this.onClick = onClick;
+  this.onBackClick = onBackClick;
+
   this.render = () => {
     if (this.state.nodes) {
       const nodesTemplate = this.state.nodes
@@ -17,7 +20,7 @@ export default function Nodes({ $app, initialState, onClick, onBackClick }) {
             node.type === "FILE"
               ? "./assets/file.png"
               : "./assets/directory.png";
-          return `<div class="Node">
+          return `<div class="Node" data-node-id="${node.id}">
           <img src="${iconPath}"/>
           <div>${node.name}</div>
         </div>`;
@@ -26,12 +29,37 @@ export default function Nodes({ $app, initialState, onClick, onBackClick }) {
       this.$target.innerHTML = !this.state.isRoot
         ? `
             <div class="Node">
-              <img src="./assets/prev.png />
+              <img src="./assets/prev.png" />
             </div>${nodesTemplate}
           `
         : nodesTemplate;
     }
   };
+  // this.$target.querySelectorAll(".Node").forEach(($node) => {
+  this.$target.addEventListener("click", (e) => {
+    // const { nodeId } = e.target.dataset;
+    // if (!nodeId) {
+    //   this.onBackClick();
+    // }
+    // const selectedNode = this.state.nodes.find((node) => node.id === nodeId);
+    // if (selectedNode) {
+    //   this.onClick(selectedNode);
+    // }
+    const $node = e.target.closest(".Node");
+
+    if ($node) {
+      const { nodeId } = $node.dataset;
+      if (!nodeId) {
+        this.onBackClick();
+        return;
+      }
+      const selectedNode = this.state.nodes.find((node) => node.id === nodeId);
+      if (selectedNode) {
+        this.onClick(selectedNode);
+      }
+    }
+  });
+  // });
 
   this.render();
 }

@@ -1,4 +1,4 @@
-export default function Breadcrumb({ $app, initialState, onClick }) {
+export default function Breadcrumb({ $app, initialState = [], onClick }) {
   this.state = initialState;
   this.$target = document.createElement("nav");
   this.$target.className = "Breadcrumb";
@@ -6,6 +6,7 @@ export default function Breadcrumb({ $app, initialState, onClick }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log("Breadcrumb", nextState);
     this.render();
   };
   // state를 기준으로 렌더링 하는 코드

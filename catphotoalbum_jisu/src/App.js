@@ -44,23 +44,30 @@ export default function App($app) {
 
   const nodes = new Nodes({
     $app,
-    initialState: {
-      isRoot: this.state.isRoot,
-      nodes: this.state.nodes,
-    },
+    initialState: [],
     onClick: async (node) => {
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
       try {
         if (node.type === "DIRECTORY") {
           const nextNodes = await request(node.id);
+          console.log(node);
           if (cache[node.id]) {
             this.setState({
               ...this.state,
+              isRoot: false,
+              isLoading: false,
               depth: [...this.state.depth, node],
               nodes: nextNodes,
             });
+            console.log(this.state.depth);
           } else {
             this.setState({
               ...this.state,
+              isRoot: false,
+              isLoading: false,
               depth: [...this.state.depth, node],
               nodes: nextNodes,
             });
@@ -69,6 +76,8 @@ export default function App($app) {
         } else if (node.type === "FILE") {
           this.setState({
             ...this.state,
+            isRoot: false,
+            isLoading: false,
             selectedFilePath: node.filePath,
           });
         }
@@ -77,6 +86,10 @@ export default function App($app) {
       }
     },
     onBackClick: async () => {
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
       try {
         const nextState = { ...this.state };
         nextState.depth.pop();
@@ -84,20 +97,19 @@ export default function App($app) {
           nextState.depth.length === 0
             ? null
             : nextState.depth[nextState.depth.length - 1].id;
-
         if (prevNodeId === null) {
-          const rootNodes = await request();
           this.setState({
             ...this.state,
             isRoot: true,
-            nodes: cache.rootNodes,
+            isLoading: false,
+            nodes: cache.root,
           });
         } else {
-          const prevNodes = request(prevNodeId);
           this.setState({
             ...this.state,
             isRoot: false,
-            nodes: cache[prevNodes],
+            isLoading: false,
+            nodes: cache[prevNodeId],
           });
         }
       } catch (e) {
@@ -118,6 +130,7 @@ export default function App($app) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state.depth);
     breadcrumb.setState(this.state.depth);
     nodes.setState({
       isRoot: this.state.isRoot,
