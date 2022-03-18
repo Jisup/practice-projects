@@ -53,7 +53,6 @@ export default function App($app) {
       try {
         if (node.type === "DIRECTORY") {
           const nextNodes = await request(node.id);
-          console.log(node);
           if (cache[node.id]) {
             this.setState({
               ...this.state,
@@ -62,7 +61,6 @@ export default function App($app) {
               depth: [...this.state.depth, node],
               nodes: nextNodes,
             });
-            console.log(this.state.depth);
           } else {
             this.setState({
               ...this.state,
@@ -102,6 +100,7 @@ export default function App($app) {
             ...this.state,
             isRoot: true,
             isLoading: false,
+            selectedFilePath: null,
             nodes: cache.root,
           });
         } else {
@@ -109,6 +108,7 @@ export default function App($app) {
             ...this.state,
             isRoot: false,
             isLoading: false,
+            selectedFilePath: null,
             nodes: cache[prevNodeId],
           });
         }
@@ -130,7 +130,6 @@ export default function App($app) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state.depth);
     breadcrumb.setState(this.state.depth);
     nodes.setState({
       isRoot: this.state.isRoot,

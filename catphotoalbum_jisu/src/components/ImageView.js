@@ -20,5 +20,12 @@ export default function ImageView({ $app, initialState }) {
     `;
     this.$target.style.display = this.state ? "block" : "none";
   };
+
+  this.$target.addEventListener("click", (e) => {
+    if (e.target.style.display === "block") {
+      e.target.style.display = "none";
+    }
+  });
+
   this.render();
 }

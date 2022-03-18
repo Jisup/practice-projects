@@ -1,4 +1,4 @@
-export default function Breadcrumb({ $app, initialState = [], onClick }) {
+export default function Breadcrumb({ $app, initialState, onClick }) {
   this.state = initialState;
   this.$target = document.createElement("nav");
   this.$target.className = "Breadcrumb";
@@ -17,7 +17,7 @@ export default function Breadcrumb({ $app, initialState = [], onClick }) {
       <div class="nav-item">root</div>
       ${this.state
         .map((node, index) => {
-          `<div class="nav-item" data-index="${index}">${node.name}</div>`;
+          return `<div class="nav-item" data-index="${index}">${node.name}</div>`;
         })
         .join("")}`;
   };
