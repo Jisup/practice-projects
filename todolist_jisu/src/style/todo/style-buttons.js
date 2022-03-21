@@ -16,19 +16,18 @@ function CTColorButton({ children, color, className }) {
   );
 }
 
-const MaterialColorButton = styled(Button)`
+// mui 기본 옵션들 의 경우 attrs를 통해 넣을 수 있음
+const MaterialColorButton = styled(Button).attrs({
+  size: "small",
+})`
   color: white;
   background-color: ${(props) => props.color || "#AC92ED"};
 `;
 
-function MUColorButton({ children, color, className, varient }) {
+function MUColorButton({ children, color, className }) {
   return (
     <StylesProvider injectFirst>
-      <MaterialColorButton
-        className={className}
-        variant={varient}
-        color={color}
-      >
+      <MaterialColorButton className={className} color={color}>
         {children}
       </MaterialColorButton>
     </StylesProvider>

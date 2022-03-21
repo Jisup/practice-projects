@@ -1,3 +1,4 @@
+import "style/main.scss";
 import React, { useState, useEffect } from "react";
 
 import TodoInput from "./view/todo/todo-input";
@@ -15,14 +16,19 @@ function Main() {
   }, [todolist]);
 
   return (
-    <div className="Main">
-      <header className="Main-header">Todo List</header>
-      <section>
-        <article>
-          <TodoInput handleCallbackTodo={handleCallbackTodo}></TodoInput>
-          <Todolist todolist={todolist}></Todolist>
-        </article>
-      </section>
+    <div className="main">
+      <nav className="main-nav"></nav>
+      <header className="main-header">Todo List</header>
+      <main>
+        <aside className="left-aside">빈곳</aside>
+        <section>
+          <article>
+            <TodoInput handleCallbackTodo={handleCallbackTodo}></TodoInput>
+            <Todolist todolist={todolist}></Todolist>
+          </article>
+        </section>
+        <aside className="right-aside">빈곳</aside>
+      </main>
       <footer></footer>
     </div>
   );
