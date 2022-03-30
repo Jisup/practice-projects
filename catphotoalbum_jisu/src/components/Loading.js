@@ -16,6 +16,8 @@ export default function Loading({ $app, initialState }) {
       </div>
     `;
     this.$target.style.display = this.state ? "block" : "none";
+    this.$target.style.pointerEvents = "none";
   };
+
   this.render();
 }

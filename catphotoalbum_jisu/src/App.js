@@ -1,8 +1,9 @@
 import Breadcrumb from "./components/Breadcrumb.js";
 import Nodes from "./components/Nodes.js";
 import ImageView from "./components/ImageView.js";
-import { request } from "./api/api.js";
 import Loading from "./components/Loading.js";
+
+import { request } from "./api/api.js";
 
 const cache = {};
 
@@ -10,38 +11,46 @@ export default function App($app) {
   this.state = {
     isRoot: false,
     isLoading: false,
-    nodes: [],
     depth: [],
+    nodes: [],
   };
 
-  // 아래처럼 breadcrumb, nodes, imageview, loading 등 구성하면
-  // 해당 컴포넌트들은 독립적으로 구성되고, 쉽게 재활용 가능해짐
   const breadcrumb = new Breadcrumb({
     $app,
     initialState: this.state.depth,
-    onClick: (index) => {
+    onClick: async (index) => {
+      if (index === this.state.depth.length - 1) {
+        return;
+      }
+
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
+
       if (index === null) {
         this.setState({
           ...this.state,
+          isRoot: true,
+          isLoading: false,
           depth: [],
           nodes: cache.root,
         });
         return;
       }
-      if (index === this.state.depth.length - 1) {
-        return;
-      }
-      const nextState = { ...this.state };
-      const nextDepth = this.state.depth.slice(0, index + 1);
+
+      const indexState = { ...this.state };
+      const indexDepth = indexState.depth.slice(0, index + 1);
+      const indexNodeId = indexState.depth[index].id;
 
       this.setState({
-        ...nextState,
-        depth: nextDepth,
-        nodes: cache[nextDepth[nextDepth.length - 1].id],
+        ...indexState,
+        isLoading: false,
+        depth: indexDepth,
+        nodes: cache[indexNodeId],
       });
     },
   });
-
   const nodes = new Nodes({
     $app,
     initialState: [],
@@ -52,16 +61,16 @@ export default function App($app) {
       });
       try {
         if (node.type === "DIRECTORY") {
-          const nextNodes = await request(node.id);
           if (cache[node.id]) {
             this.setState({
               ...this.state,
               isRoot: false,
               isLoading: false,
               depth: [...this.state.depth, node],
-              nodes: nextNodes,
+              nodes: cache[node.id],
             });
           } else {
+            const nextNodes = await request(node.id);
             this.setState({
               ...this.state,
               isRoot: false,
@@ -74,13 +83,12 @@ export default function App($app) {
         } else if (node.type === "FILE") {
           this.setState({
             ...this.state,
-            isRoot: false,
             isLoading: false,
-            selectedFilePath: node.filePath,
+            imageFilePath: node.filePath,
           });
         }
       } catch (e) {
-        throw new Error(e);
+        throw new Error(e.message);
       }
     },
     onBackClick: async () => {
@@ -88,44 +96,41 @@ export default function App($app) {
         ...this.state,
         isLoading: true,
       });
-      try {
-        const nextState = { ...this.state };
-        nextState.depth.pop();
-        const prevNodeId =
-          nextState.depth.length === 0
-            ? null
-            : nextState.depth[nextState.depth.length - 1].id;
-        if (prevNodeId === null) {
-          this.setState({
-            ...this.state,
-            isRoot: true,
-            isLoading: false,
-            selectedFilePath: null,
-            nodes: cache.root,
-          });
-        } else {
-          this.setState({
-            ...this.state,
-            isRoot: false,
-            isLoading: false,
-            selectedFilePath: null,
-            nodes: cache[prevNodeId],
-          });
-        }
-      } catch (e) {
-        throw new Error(e);
+      const nextState = { ...this.state };
+      nextState.depth.pop();
+      const prevNodeId =
+        nextState.depth.length === 0
+          ? null
+          : nextState.depth[nextState.depth.length - 1].id;
+      if (prevNodeId === null) {
+        this.setState({
+          ...this.state,
+          isRoot: true,
+          isLoading: false,
+          nodes: cache.root,
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          isLoading: false,
+          nodes: cache[prevNodeId],
+        });
       }
     },
   });
-
   const imageview = new ImageView({
     $app,
-    initialState: this.state.selectedNodeImage,
+    initialState: this.state.imageFilePath,
+    onClick: () => {
+      this.setState({
+        ...this.state,
+        imageFilePath: null,
+      });
+    },
   });
-
   const loading = new Loading({
     $app,
-    initialState: this.state.isLoading,
+    initialState: this.isLoading,
   });
 
   this.setState = (nextState) => {
@@ -135,28 +140,23 @@ export default function App($app) {
       isRoot: this.state.isRoot,
       nodes: this.state.nodes,
     });
+    imageview.setState(this.state.imageFilePath);
     loading.setState(this.state.isLoading);
-    imageview.setState(this.state.selectedFilePath);
   };
+
   const init = async () => {
     this.setState({
       ...this.state,
       isLoading: true,
     });
-
-    try {
-      const rootNodes = await request();
-      this.setState({
-        ...this.state,
-        isRoot: true,
-        isLoading: false,
-        nodes: rootNodes,
-      });
-      cache.root = rootNodes;
-    } catch (e) {
-      throw new Error(e);
-    }
+    const rootNodes = await request();
+    this.setState({
+      ...this.state,
+      isRoot: true,
+      isLoading: false,
+      nodes: rootNodes,
+    });
+    cache.root = rootNodes;
   };
-
   init();
 }
