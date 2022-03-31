@@ -4,6 +4,8 @@ import ImageInfo from "./components/ImageInfo.js";
 
 import { request } from "./api/api.js";
 
+const cache = {};
+
 export default function App($app) {
   this.state = {
     visible: false,
@@ -47,4 +49,14 @@ export default function App($app) {
     searchResult.setState(this.state.data);
     imageInfo.setState(this.state);
   };
+
+  const init = async () => {
+    const initData = await request();
+    console.log(initData);
+    this.setState({
+      ...this.state,
+      data: initData.data,
+    });
+  };
+  init();
 }

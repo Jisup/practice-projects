@@ -10,9 +10,10 @@ export default function ImageInfo({ $app, initialState }) {
   };
 
   this.render = () => {
-    const { name, url, temperament, origin } = this.state.image;
+    if (this.state.image) {
+      const { name, url, temperament, origin } = this.state.image;
 
-    this.$target.innerHTML = `
+      this.$target.innerHTML = `
       <div class="content-wrapper">
         <div class="title">
           <span>${name}</span>
@@ -25,7 +26,7 @@ export default function ImageInfo({ $app, initialState }) {
         </div>
       </div>
     `;
-
+    }
     this.$target.style.display = this.state.visible ? "block" : "none";
   };
   this.render();

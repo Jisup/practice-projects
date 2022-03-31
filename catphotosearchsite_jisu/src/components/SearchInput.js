@@ -9,7 +9,7 @@ export default function SearchInput({ $app, onSearch }) {
 
   this.render = () => {};
 
-  $target.addEventListener("keyup", (e) => {
+  this.$target.addEventListener("keyup", (e) => {
     if (e.keyCode === 13) {
       onSearch(e.target.value);
     }

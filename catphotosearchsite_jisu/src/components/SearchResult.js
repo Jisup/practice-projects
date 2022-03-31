@@ -10,18 +10,19 @@ export default function SearchResult({ $app, initialState, onClick }) {
   };
 
   this.render = () => {
-    this.$searchResult.innerHTML = this.state
-      .map(
-        (cat, index) => `
-        <div class="item" data-index=${index}>
-          <img src=${cat.url} alt=${cat.name} />
-        </div>
-      `
-      )
+    this.$target.innerHTML = this.state
+      .map((cat, index) => {
+        return `
+          <div class="item" data-index=${index}>
+            <img src=${cat.url} alt=${cat.name} />
+          </div>
+        `;
+      })
       .join("");
   };
 
   this.onClick = onClick;
+
   this.$target.addEventListener("click", (e) => {
     const $item = e.target.closest(".item");
 
