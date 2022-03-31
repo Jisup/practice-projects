@@ -28,8 +28,25 @@ body * {
 .SearchResult {
   margin-top: 10px;
   display: grid;
+  /* 검색 결과 미디어 쿼리 부분은 아래 부분의 repeat 을 수정한다 */
   grid-template-columns: repeat(4, minmax(250px, 1fr));
   grid-gap: 10px;
+}
+
+@media (max-width : 992px) { 
+  .SearchResult {
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+  }
+}
+@media (max-width : 768px) { 
+  .SearchResult {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+  }
+}
+@media (max-width : 576px) { 
+  .SearchResult {
+    grid-template-columns: repeat(1, minmax(250px, 1fr));
+  }
 }
 
 .SearchResult img {
