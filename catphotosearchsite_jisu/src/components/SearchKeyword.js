@@ -1,4 +1,4 @@
-export default function SearchKeyword({ $app, initalState }) {
+export default function SearchKeyword({ $app, initalState, onClick }) {
   this.state = initalState;
   this.$target = document.createElement("div");
   this.$target.className = "SearchKeyword";
@@ -10,12 +10,29 @@ export default function SearchKeyword({ $app, initalState }) {
   };
 
   this.render = () => {
-    this.$target.innerHTML = `
-      <button class="keyword">디두디두디</button>
-      <button class="keyword">디두디두디</button>
-      <button class="keyword">디두디두디</button>
-    `;
+    if (this.state) {
+      this.$target.innerHTML = this.state
+        .map((keyword) => {
+          return `
+            <button class="Keyword" data-keyword="${keyword}">
+              ${keyword}
+            </button>
+          `;
+        })
+        .join("");
+    }
   };
+
+  this.onClick = onClick;
+
+  this.$target.addEventListener("click", (e) => {
+    const $keywordItem = e.target.closest(".Keyword");
+    if ($keywordItem) {
+      const { keyword } = $keywordItem.dataset;
+
+      this.onClick(keyword);
+    }
+  });
 
   this.render();
 }

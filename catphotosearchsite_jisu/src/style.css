@@ -30,14 +30,14 @@ body * {
   margin-right: 10px;
 }
 
-.SearchKeyword > .keyword {
+.SearchKeyword > .Keyword {
   padding: 0.125em 0.25em;
   border-radius: 15px;
   font-size: 1.25em;
   font-weight: bold;
 }
 
-.keyword:hover {
+.Keyword:hover {
   background-color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   color: white;
