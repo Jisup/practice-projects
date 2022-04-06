@@ -25,6 +25,29 @@ body * {
   column-gap: 1.5em;
 }
 
+.SearchSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.SearchInput {
+  width: 100%;
+  font-size: 40px;
+  padding: 10px 15px;
+}
+
+.SearchRandom {
+  margin: 0 0 0 0.5em;
+  padding: 0.5em;
+  width: 7.777%;
+  font-size: 15px;
+  border-radius: 15px;
+}
+
+
 .SearchKeyword {
   margin-top: 10px;
   margin-right: 10px;
@@ -52,16 +75,28 @@ body * {
 }
 
 @media (max-width : 992px) { 
+  .SearchRandom {
+    width: 9%;
+    font-size: 12px;
+  }
   .SearchResult {
     grid-template-columns: repeat(3, minmax(250px, 1fr));
   }
 }
 @media (max-width : 768px) { 
+  .SearchRandom {
+    width: 7%;
+    font-size: 8px;
+  }
   .SearchResult {
     grid-template-columns: repeat(2, minmax(250px, 1fr));
   }
 }
 @media (max-width : 576px) { 
+  .SearchRandom {
+    width: 5%;
+    font-size: 6px;
+  }
   .SearchResult {
     grid-template-columns: repeat(1, minmax(250px, 1fr));
   }
@@ -76,14 +111,8 @@ body * {
 .SearchResult .item {
   background-color: #eee;
   display: inline-block;
-  margin: 0 0 1em;
+  margin: 1em 0 1em 0;
   width: 100%;
-}
-
-.SearchInput {
-  width: 100%;
-  font-size: 40px;
-  padding: 10px 15px;
 }
 
 .ImageInfo {

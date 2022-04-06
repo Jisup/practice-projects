@@ -8,6 +8,10 @@ import { request } from "./api/api.js";
 
 const cache = {};
 
+const setLocalStorage = (data) => {
+  localStorage.setItem("lastSearchData", JSON.stringify(data));
+};
+
 export default function App($app) {
   this.state = {
     visible: false,
@@ -20,20 +24,37 @@ export default function App($app) {
   const searchInput = new SearchInput({
     $app,
     onSearch: async (keyword) => {
-      const searchData = await request("search", keyword);
-      localStorage.setItem("lastSearchData", JSON.stringify(searchData));
+      try {
+        const searchData = await request("search", keyword);
+        setLocalStorage(searchData);
 
-      var nextKeyword = [keyword, ...this.state.keyword];
+        var nextKeyword = [keyword, ...this.state.keyword];
 
-      if (nextKeyword.length > 5) {
-        nextKeyword = nextKeyword.slice(0, 5);
+        if (nextKeyword.length > 5) {
+          nextKeyword = nextKeyword.slice(0, 5);
+        }
+
+        this.setState({
+          ...this.state,
+          data: searchData.data,
+          keyword: nextKeyword,
+        });
+      } catch (e) {
+        throw new Error(e.message);
       }
+    },
+    onClick: async () => {
+      try {
+        const randomData = await request("random");
+        setLocalStorage(randomData);
 
-      this.setState({
-        ...this.state,
-        data: searchData,
-        keyword: nextKeyword,
-      });
+        this.setState({
+          ...this.state,
+          data: randomData.data,
+        });
+      } catch (e) {
+        throw new Error(e.message);
+      }
     },
   });
 
@@ -42,7 +63,7 @@ export default function App($app) {
     initalState: this.state.keyword,
     onClick: async (keyword) => {
       const keywordData = await request("search", keyword);
-      localStorage.setItem("lastSearchData", JSON.stringify(keywordData));
+      setLocalStorage(keywordData);
 
       const nextKeyword = [
         keyword,
@@ -51,7 +72,7 @@ export default function App($app) {
 
       this.setState({
         ...this.state,
-        data: keywordData,
+        data: keywordData.data,
         keyword: nextKeyword,
       });
     },
@@ -59,7 +80,7 @@ export default function App($app) {
 
   const searchResult = new SearchResult({
     $app,
-    initialState: this.state,
+    initialState: [],
     onClick: (image) => {
       this.imageInfo.setState({
         visible: true,
@@ -95,16 +116,22 @@ export default function App($app) {
       loading: true,
     });
 
-    const storage = JSON.parse(localStorage.getItem("lastSearchData"));
-    console.log(storage);
-    const initData = storage ? storage : await request("random");
-    localStorage.setItem("lastSearchData", JSON.stringify(initData));
+    try {
+      const storage = JSON.parse(localStorage.getItem("lastSearchData"));
+      const initData = await request("random");
 
-    this.setState({
-      ...this.state,
-      loading: false,
-      data: initData.data,
-    });
+      if (!storage) {
+        setLocalStorage(initData);
+      }
+
+      this.setState({
+        ...this.state,
+        loading: false,
+        data: storage ? storage.data : initData.data,
+      });
+    } catch (e) {
+      throw new Error(e.message);
+    }
   };
   init();
 }
