@@ -1,7 +1,7 @@
-export default function Loading({ $app, initialState }) {
+export default function SearchError({ $app, initialState }) {
   this.state = initialState;
   this.$target = document.createElement("div");
-  this.$target.className = "Loading";
+  this.$target.className = "SearchError";
   $app.appendChild(this.$target);
 
   this.setState = (nextState) => {
@@ -10,12 +10,7 @@ export default function Loading({ $app, initialState }) {
   };
 
   this.render = () => {
-    this.$target.innerHTML = `
-      <div class="content">
-        <div class="loading">Loading ... \` ─ ┌ </div>
-      </div>
-    `;
-
+    this.$target.innerHTML = `냐옹이들이 없어요. ┃ `;
     this.$target.style.display = this.state ? "block" : "none";
   };
 

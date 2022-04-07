@@ -9,7 +9,7 @@ export default function SearchInput({ $app, onSearch, onClick }) {
 
   this.$button = document.createElement("button");
   this.$button.className = "SearchRandom";
-  this.$button.innerHTML = "랜덤</br>냐옹";
+  this.$button.innerHTML = `<span>╅</span></br>랜덤냐옹`;
 
   this.$target.appendChild(this.$input);
   this.$target.appendChild(this.$button);
