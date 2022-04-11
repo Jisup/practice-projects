@@ -118,7 +118,7 @@ body * {
 }
 @media (max-width: 576px) {
   .SearchRandom {
-    width: 6%;
+    width: 7%;
     font-size: 6px;
   }
   .SearchRandom > span {
@@ -139,6 +139,7 @@ body * {
 }
 
 .SearchResult .item {
+  position: relative;
   background-color: #eee;
   display: inline-block;
   margin: 1em 0 1em 0;
@@ -226,8 +227,10 @@ body * {
 .DarkModeToggle {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 44px;
+  height: 26px;
+
+  margin-bottom: 1em;
 }
 
 .DarkModeToggle input {
@@ -251,8 +254,8 @@ body * {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 18px;
+  width: 18px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -264,17 +267,10 @@ input:checked + .slider {
   background-color: #2196f3;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  transform: translateX(18px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
@@ -282,9 +278,15 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #000;
     color: white;
   }
+}
+
+body[data-theme="dark"] {
+  background-color: #000;
+  color: white;
 }

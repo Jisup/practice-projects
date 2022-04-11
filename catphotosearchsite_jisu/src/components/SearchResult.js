@@ -18,13 +18,13 @@ export default function SearchResult({ $app, initialState, onClick }) {
         .map((cat, index) => {
           return index < 4
             ? `<div class="item" data-index=${index}>
-              <img src=${cat.url} alt="${cat.name}"/>
-              <div>${cat.name}</div>
-            </div>`
+                <img src=${cat.url} alt="${cat.name}" title="${cat.name}"/>
+                <div>${cat.name}</div>
+              </div>`
             : `<div class="item" data-index=${index}>
-              <img class="lazy" data-src=${cat.url} alt="${cat.name}"/>
-              <div>${cat.name}</div>
-            </div>`;
+                <img class="lazy" data-src=${cat.url} alt="${cat.name}" title="${cat.name}"/>
+                <div>${cat.name}</div>
+              </div>`;
         })
         .join("");
     }
@@ -37,9 +37,7 @@ export default function SearchResult({ $app, initialState, onClick }) {
 
     if ($item) {
       const { index } = $item.dataset;
-
       const itemId = this.state.data[parseInt(index, 10)].id;
-
       this.onClick(index ? itemId : null);
     }
   });

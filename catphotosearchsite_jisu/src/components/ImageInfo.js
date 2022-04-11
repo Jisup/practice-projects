@@ -49,9 +49,7 @@ export default function ImageInfo({ $app, initialState, onBackClick }) {
   };
 
   this.$target.addEventListener("keyup", (e) => {
-    console.log("키다운 눌렸따");
     if (e.keyCode === 27) {
-      console.log("진짜 눌렷따");
       fadeOutEffect();
     }
   });

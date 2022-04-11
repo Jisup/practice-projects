@@ -6,6 +6,7 @@ import SearchKeyword from "./components/SearchKeyword.js";
 import SearchError from "./components/SearchError.js";
 
 import { request } from "./api/api.js";
+import DarkMode from "./components/DarkMode.js";
 
 const cache = {};
 
@@ -22,6 +23,10 @@ export default function App($app) {
     data: [],
     keyword: ["a", "b", "c", "d", "e"],
   };
+
+  const darkmode = new DarkMode({
+    $app,
+  });
 
   const searchInput = new SearchInput({
     $app,
