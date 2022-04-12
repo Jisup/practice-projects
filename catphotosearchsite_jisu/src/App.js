@@ -25,7 +25,7 @@ export default function App($app) {
     image: null,
     data: [],
     banner: [],
-    keyword: ["a", "b", "c", "d", "e"],
+    keyword: [],
   };
 
   const darkmode = new DarkMode({
@@ -68,6 +68,10 @@ export default function App($app) {
           error: false,
         });
       } catch (e) {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
         throw new Error(e.message);
       }
     },
@@ -86,6 +90,10 @@ export default function App($app) {
           loading: false,
         });
       } catch (e) {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
         throw new Error(e.message);
       }
     },
@@ -126,6 +134,10 @@ export default function App($app) {
           loading: false,
         });
       } catch (e) {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
         throw new Error(e.message);
       }
     },
@@ -154,6 +166,10 @@ export default function App($app) {
           image: imageData.data,
         });
       } catch (e) {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
         throw new Error(e.message);
       }
     },
@@ -217,9 +233,12 @@ export default function App($app) {
         ...this.state,
         loading: false,
         banner: storage ? storage.data : initData.data,
-        data: storage ? storage.data : initData.data,
       });
     } catch (e) {
+      this.setState({
+        ...this.state,
+        loading: false,
+      });
       throw new Error(e.message);
     }
   };

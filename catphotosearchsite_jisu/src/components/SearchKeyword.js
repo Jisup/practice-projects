@@ -30,6 +30,9 @@ export default function SearchKeyword({ $app, initalState, onClick }) {
     if ($keywordItem) {
       const { keyword } = $keywordItem.dataset;
 
+      const $input = document.querySelector(".SearchInput");
+      $input.value = keyword;
+
       this.onClick(keyword);
     }
   });
