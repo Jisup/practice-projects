@@ -1,12 +1,15 @@
 import SearchInput from "./components/SearchInput.js";
 import SearchResult from "./components/SearchResult.js";
-import ImageInfo from "./components/ImageInfo.js";
-import Loading from "./components/Loading.js";
 import SearchKeyword from "./components/SearchKeyword.js";
 import SearchError from "./components/SearchError.js";
 
-import { request } from "./api/api.js";
+import ImageInfo from "./components/ImageInfo.js";
+import ImageBanner from "./components/ImageBanner.js";
+
+import Loading from "./components/Loading.js";
 import DarkMode from "./components/DarkMode.js";
+
+import { request } from "./api/api.js";
 
 const cache = {};
 
@@ -21,6 +24,7 @@ export default function App($app) {
     error: false,
     image: null,
     data: [],
+    banner: [],
     keyword: ["a", "b", "c", "d", "e"],
   };
 
@@ -127,6 +131,11 @@ export default function App($app) {
     },
   });
 
+  const imageBanner = new ImageBanner({
+    $app,
+    initialState: [],
+  });
+
   const searchResult = new SearchResult({
     $app,
     initialState: [],
@@ -178,6 +187,7 @@ export default function App($app) {
   this.setState = (nextState) => {
     this.state = nextState;
     searchKeyword.setState(this.state.keyword);
+    imageBanner.setState(this.state.banner);
     searchResult.setState({
       data: this.state.data,
       error: this.state.error,
@@ -206,6 +216,7 @@ export default function App($app) {
       this.setState({
         ...this.state,
         loading: false,
+        banner: storage ? storage.data : initData.data,
         data: storage ? storage.data : initData.data,
       });
     } catch (e) {
