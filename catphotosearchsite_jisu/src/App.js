@@ -10,12 +10,9 @@ import Loading from "./components/Loading.js";
 import DarkMode from "./components/DarkMode.js";
 
 import { request } from "./api/api.js";
+import { getLocalStorage, setLocalStorage } from "./lib/LocalStorage.js";
 
 const cache = {};
-
-const setLocalStorage = (data) => {
-  localStorage.setItem("lastSearchData", JSON.stringify(data));
-};
 
 export default function App($app) {
   this.state = {
@@ -109,16 +106,6 @@ export default function App($app) {
       });
       try {
         const keywordData = await request("search", keyword);
-
-        if (!keywordData.data || !keywordData.data.length) {
-          this.setState({
-            ...this.state,
-            loading: false,
-            data: [],
-            error: true,
-          });
-          return;
-        }
 
         setLocalStorage(keywordData);
 
@@ -222,7 +209,7 @@ export default function App($app) {
       loading: true,
     });
     try {
-      const storage = JSON.parse(localStorage.getItem("lastSearchData"));
+      const storage = getLocalStorage();
       const initData = await request("random");
 
       if (!storage || !storage.data || !storage.data.length) {
