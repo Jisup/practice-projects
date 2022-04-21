@@ -1,6 +1,6 @@
 export default function ImageBanner({ $app, initialState }) {
   this.state = initialState;
-  this.$target = document.createElement("div");
+  this.$target = document.createElement("section");
   this.$target.className = "SlideShow";
 
   this.$prev = document.createElement("span");

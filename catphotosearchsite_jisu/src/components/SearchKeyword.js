@@ -1,6 +1,6 @@
 export default function SearchKeyword({ $app, initalState, onClick }) {
   this.state = initalState;
-  this.$target = document.createElement("div");
+  this.$target = document.createElement("buttons");
   this.$target.className = "SearchKeyword";
   $app.appendChild(this.$target);
 

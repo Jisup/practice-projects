@@ -1,6 +1,6 @@
 export default function Loading({ $app, initialState }) {
   this.state = initialState;
-  this.$target = document.createElement("div");
+  this.$target = document.createElement("aside");
   this.$target.className = "Loading";
   $app.appendChild(this.$target);
 
@@ -12,7 +12,7 @@ export default function Loading({ $app, initialState }) {
   this.render = () => {
     this.$target.innerHTML = `
       <div class="content">
-        <div class="loading">Loading ... \` ─ ┌ </div>
+        <article class="loading">Loading ... \` ─ ┌ </article>
       </div>
     `;
 

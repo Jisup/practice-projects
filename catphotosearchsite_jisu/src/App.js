@@ -212,18 +212,11 @@ export default function App($app) {
       loading: true,
     });
     try {
-      const storage = getLocalStorage();
       const initData = await request("random");
-
-      if (!storage || !storage.data || !storage.data.length) {
-        return;
-      }
 
       this.setState({
         ...this.state,
-        loading: false,
         banner: initData.data,
-        data: storage.data,
       });
     } catch (e) {
       this.setState({
@@ -232,6 +225,18 @@ export default function App($app) {
       });
       throw new Error(e.message);
     }
+
+    const storage = getLocalStorage();
+
+    if (!storage || !storage.data || !storage.data.length) {
+      return;
+    }
+
+    this.setState({
+      ...this.state,
+      loading: false,
+      data: storage.data,
+    });
   };
   init();
 }

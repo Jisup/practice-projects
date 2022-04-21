@@ -1,6 +1,6 @@
 export default function SearchError({ $app, initialState }) {
   this.state = initialState;
-  this.$target = document.createElement("div");
+  this.$target = document.createElement("article");
   this.$target.className = "SearchError";
   $app.appendChild(this.$target);
 

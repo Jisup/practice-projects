@@ -1,6 +1,6 @@
 export default function ImageInfo({ $app, initialState, onBackClick }) {
   this.state = initialState;
-  this.$target = document.createElement("div");
+  this.$target = document.createElement("details");
   this.$target.className = "ImageInfo";
   $app.appendChild(this.$target);
 
@@ -15,15 +15,15 @@ export default function ImageInfo({ $app, initialState, onBackClick }) {
 
       this.$target.innerHTML = `
         <div class="content-wrapper">
-          <div class="title">
+          <article class="title">
             <span>${name}</span>
             <div class="close">x</div>
-          </div>
+          </article>
           <img src="${url}" alt="${name}"/>        
-          <div class="description">
+          <article class="description">
             <div>성격: ${temperament}</div>
             <div>태생: ${origin}</div>
-          </div>
+          </article>
         </div>
       `;
 
