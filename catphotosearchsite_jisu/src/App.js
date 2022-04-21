@@ -51,7 +51,10 @@ export default function App($app) {
 
         setLocalStorage(searchData);
 
-        var nextKeyword = [keyword, ...this.state.keyword];
+        var nextKeyword = [
+          keyword,
+          ...this.state.keyword.filter((word) => word != keyword),
+        ];
 
         if (nextKeyword.length > 5) {
           nextKeyword = nextKeyword.slice(0, 5);
@@ -213,13 +216,14 @@ export default function App($app) {
       const initData = await request("random");
 
       if (!storage || !storage.data || !storage.data.length) {
-        setLocalStorage(initData);
+        return;
       }
 
       this.setState({
         ...this.state,
         loading: false,
-        banner: storage ? storage.data : initData.data,
+        banner: initData.data,
+        data: storage.data,
       });
     } catch (e) {
       this.setState({
