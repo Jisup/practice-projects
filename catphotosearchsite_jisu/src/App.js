@@ -229,6 +229,10 @@ export default function App($app) {
     const storage = getLocalStorage();
 
     if (!storage || !storage.data || !storage.data.length) {
+      this.setState({
+        ...this.state,
+        loading: false,
+      });
       return;
     }
 
