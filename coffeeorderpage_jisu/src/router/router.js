@@ -1,26 +1,41 @@
-import ProductListPage from '../components/ProductListPage.js';
-import ProductDetailPage from '../components/ProductDetailPage.js';
-import CartPage from '../components/CartPage.js';
+import ProductListPage from "../components/ProductListPage.js";
+import ProductDetailPage from "../components/ProductDetailPage.js";
+import CartPage from "../components/CartPage.js";
 
 const routes = [
-  { path: '/', component: ProductListPage },
-  { path: '/web', component: ProductListPage },
-  { path: '/products/', component: ProductDetailPage },
-  { path: '/cart', component: CartPage },
+  { path: "/", component: ProductListPage },
+  { path: "/web", component: ProductListPage },
+  { path: "/products", component: ProductDetailPage },
+  { path: "/cart", component: CartPage },
 ];
+
+const routeFind = (path) => {
+  return routes.find((route) => route.path === path);
+};
 
 export const router = () => {
   let { pathname } = location;
-  var route = {};
 
-  if (pathname === '/' || pathname === '/web') {
-    route = routes.find((route) => route.path === '/web');
-  } else if (pathname.includes('/products/')) {
+  var route = {};
+  var routeData = null;
+  var path = "";
+
+  if (pathname === "/" || pathname === "/web") {
+    path = "/web";
+    route = routeFind(path);
+  } else if (pathname.includes("/products/")) {
+    path = "/products";
+    route = routeFind(path);
     route.path = pathname;
-    route.component = routes.find((route) => route.path === '/products/').component;
-  } else if (pathname === '/cart') {
-    route = routes.find((route) => route.path === '/cart');
+
+    const temp = pathname.slice("/");
+    routeData = { productId: temp[temp.lastIndexOf()] };
+  } else if (pathname === "/cart") {
+    path = "/cart";
+    route = routeFind(path);
   }
 
-  return route;
+  history.pushState(routeData, null, pathname);
+
+  return { route, path };
 };
