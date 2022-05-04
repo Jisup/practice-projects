@@ -5,7 +5,7 @@ import CartPage from "../components/CartPage.js";
 const routes = [
   { path: "/", component: ProductListPage },
   { path: "/web", component: ProductListPage },
-  { path: "/products", component: ProductDetailPage },
+  { path: "/web/products", component: ProductDetailPage },
   { path: "/cart", component: CartPage },
 ];
 
@@ -17,25 +17,16 @@ export const router = () => {
   let { pathname } = location;
 
   var route = {};
-  var routeData = null;
   var path = "";
 
   if (pathname === "/" || pathname === "/web") {
     path = "/web";
-    route = routeFind(path);
   } else if (pathname.includes("/products/")) {
-    path = "/products";
-    route = routeFind(path);
-    route.path = pathname;
-
-    const temp = pathname.slice("/");
-    routeData = { productId: temp[temp.lastIndexOf()] };
+    path = "/web/products";
   } else if (pathname === "/cart") {
     path = "/cart";
-    route = routeFind(path);
   }
-
-  history.pushState(routeData, null, pathname);
+  route = routeFind(path);
 
   return { route, path };
 };

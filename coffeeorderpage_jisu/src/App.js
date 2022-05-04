@@ -1,47 +1,42 @@
+import { request } from "./api/api.js";
 import { router } from "./router/router.js";
 
 export default function App($app) {
-  const buttonCreate = () => {
-    this.$button1 = document.createElement("button");
-    this.$button1.innerHTML = "상품목록";
-    this.$button1.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.router();
-    });
-
-    this.$button2 = document.createElement("button");
-    this.$button2.innerHTML = "커피잔 상품 정보";
-    this.$button2.addEventListener("click", (e) => {
-      // const { productId } = e.target.dataset;
-      const productId = 1;
-      e.preventDefault();
-      this.router();
-    });
-
-    this.$button3 = document.createElement("button");
-    this.$button3.innerHTML = "장바구니";
-    this.$button3.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.router();
-    });
-
-    $app.appendChild(this.$button1);
-    $app.appendChild(this.$button2);
-    $app.appendChild(this.$button3);
+  this.router = (data, unused, url) => {
+    history.pushState(data, unused, url);
+    this.init();
   };
-  this.router = () => {
+  this.init = async () => {
     $app.innerHTML = "";
-    buttonCreate();
-    const routeData = router();
 
-    if (routeData.path == "") return;
+    const routerData = router();
 
-    new routeData.route.component({
+    let productData = [];
+
+    try {
+      switch (routerData.path) {
+        case "/web":
+          productData = await request();
+          break;
+        case "/web/products":
+          productData = await request(history.state);
+          break;
+        case "/cart":
+          break;
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    }
+
+    new routerData.route.component({
       $app,
-      initialState: [],
+      initialState: productData,
+      onClick: (data, unused, url) => {
+        this.router(data, unused, url);
+      },
     }).render();
   };
-  this.router();
+  this.init();
 
-  window.addEventListener("popstate", init);
+  window.addEventListener("popstate", this.router);
 }
