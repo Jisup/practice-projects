@@ -38,5 +38,5 @@ export default function App($app) {
   };
   this.init();
 
-  window.addEventListener("popstate", this.router);
+  window.addEventListener("popstate", this.init);
 }
