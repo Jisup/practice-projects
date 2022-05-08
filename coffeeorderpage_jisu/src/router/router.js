@@ -6,7 +6,7 @@ const routes = [
   { path: "/", component: ProductListPage },
   { path: "/web", component: ProductListPage },
   { path: "/web/products", component: ProductDetailPage },
-  { path: "/cart", component: CartPage },
+  { path: "/web/cart", component: CartPage },
 ];
 
 const routeFind = (path) => {
@@ -23,8 +23,8 @@ export const router = () => {
     path = "/web";
   } else if (pathname.includes("/products/")) {
     path = "/web/products";
-  } else if (pathname === "/cart") {
-    path = "/cart";
+  } else if (pathname === "/web/cart") {
+    path = "/web/cart";
   }
   route = routeFind(path);
 

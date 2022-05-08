@@ -4,10 +4,6 @@ export default function ProductListPage({ $app, initialState, onClick }) {
   this.$target.className = "ProductListPage";
   $app.appendChild(this.$target);
 
-  this.setState = (nextState) => {
-    this.state = nextState;
-  };
-
   this.render = () => {
     this.$target.innerHTML = `
       <h1>상품목록</h1>
@@ -19,7 +15,7 @@ export default function ProductListPage({ $app, initialState, onClick }) {
               <img src="${product.imageUrl}"/>
               <div class="Product__info">
                 <div>${product.name}</div>
-                <div>${product.price}원~</div>
+                <div>${product.price.toLocaleString()}원~</div>
               </div>
             </li>
         `;

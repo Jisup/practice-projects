@@ -1,6 +1,8 @@
 import { request } from "./api/api.js";
 import { router } from "./router/router.js";
 
+import { getLocalStorage } from "./lib/LocalStorage.js";
+
 export default function App($app) {
   this.router = (data, unused, url) => {
     history.pushState(data, unused, url);
@@ -21,7 +23,19 @@ export default function App($app) {
         case "/web/products":
           productData = await request(history.state);
           break;
-        case "/cart":
+        case "/web/cart":
+          const cartData = JSON.parse(getLocalStorage("products_cart"));
+          await cartData.map(async (cart) => {
+            const productInfo = await request({ productId: cart.productId });
+            const optionInfo = productInfo.productOptions.find(
+              (option) => option.id === cart.optionId
+            );
+            productData.push({
+              product: productInfo,
+              option: optionInfo,
+              quantity: cart.quantity,
+            });
+          });
           break;
       }
     } catch (e) {
