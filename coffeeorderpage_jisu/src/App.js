@@ -17,7 +17,7 @@ export default function App($app) {
 
     try {
       switch (routerData.path) {
-        case "/web":
+        case "/web/":
           productData = await request();
           break;
         case "/web/products":

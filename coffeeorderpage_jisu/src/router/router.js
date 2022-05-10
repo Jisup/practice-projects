@@ -3,8 +3,7 @@ import ProductDetailPage from "../components/ProductDetailPage.js";
 import CartPage from "../components/CartPage.js";
 
 const routes = [
-  { path: "/", component: ProductListPage },
-  { path: "/web", component: ProductListPage },
+  { path: "/web/", component: ProductListPage },
   { path: "/web/products", component: ProductDetailPage },
   { path: "/web/cart", component: CartPage },
 ];
@@ -16,17 +15,11 @@ const routeFind = (path) => {
 export const router = () => {
   let { pathname } = location;
 
-  var route = {};
-  var path = "";
-
-  if (pathname === "/" || pathname === "/web") {
-    path = "/web";
+  if (pathname === "/") {
+    pathname = "/web/";
   } else if (pathname.includes("/products/")) {
-    path = "/web/products";
-  } else if (pathname === "/web/cart") {
-    path = "/web/cart";
+    pathname = "/web/products";
   }
-  route = routeFind(path);
 
-  return { route, path };
+  return routeFind(pathname);
 };

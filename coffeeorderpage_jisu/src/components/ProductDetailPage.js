@@ -2,51 +2,47 @@ import { getLocalStorage, setLocalStorage } from "../lib/LocalStorage.js";
 
 export default function ProductDetailPage({ $app, initialState, onClick }) {
   this.state = initialState;
-  this.state.index = [];
   this.state.totalPrice = [];
   this.$target = document.createElement("div");
   this.$target.className = "ProductDetailPage";
   $app.appendChild(this.$target);
 
   this.render = () => {
-    if (this.state) {
-      console.log(this.state);
-      this.$target.innerHTML = `
-        <h1>${this.state.name} 상품 정보</h1>
-        <div class="ProductDetail">
-          <img src="${this.state.imageUrl}"/>
-          <div class="ProductDetail__info">
-            <h2>${this.state.name}</h2>
-            <div class="ProductDetail__price">${this.state.price.toLocaleString()}원~</div>
-            <select>
-              <option>선택하세요.</option>
-              ${this.state.productOptions
-                .map((option, index) => {
-                  return `
-                  <option class="valuable" data-index="${index}" ${
-                    option.stock === 0
-                      ? `disabled`
-                      : `data-stock="${option.stock}"`
-                  }>
-                    ${option.stock === 0 ? `(품절)` : ""}
-                    ${this.state.name} 
-                    ${option.name}
-                    ${option.price ? `(+${option.price.toLocaleString()})` : ""}
-                    </option>
-                  `;
-                })
-                .join("")}
-            </select>
-            <div class="ProductDetail__selectedOptions">
-              <h3>선택된 상품</h3>
-              <ul></ul>
-              <div class="ProductDetail__totalPrice"></div>
-              <button class="OrderButton">주문하기</button>
-            </div>
+    this.$target.innerHTML = `
+      <h1>${this.state.name} 상품 정보</h1>
+      <div class="ProductDetail">
+        <img src="${this.state.imageUrl}"/>
+        <div class="ProductDetail__info">
+          <h2>${this.state.name}</h2>
+          <div class="ProductDetail__price">${this.state.price.toLocaleString()}원~</div>
+          <select>
+            <option>선택하세요.</option>
+            ${this.state.productOptions
+              .map((option, index) => {
+                return `
+                <option class="valuable" data-index="${index}" ${
+                  option.stock === 0
+                    ? `disabled`
+                    : `data-stock="${option.stock}"`
+                }>
+                  ${option.stock === 0 ? `(품절)` : ""}
+                  ${this.state.name} 
+                  ${option.name}
+                  ${option.price ? `(+${option.price.toLocaleString()})` : ""}
+                  </option>
+                `;
+              })
+              .join("")}
+          </select>
+          <div class="ProductDetail__selectedOptions">
+            <h3>선택된 상품</h3>
+            <ul></ul>
+            <div class="ProductDetail__totalPrice"></div>
+            <button class="OrderButton">주문하기</button>
           </div>
         </div>
-      `;
-    }
+      </div>
+    `;
   };
 
   this.$target.addEventListener("click", (e) => {
@@ -98,13 +94,6 @@ export default function ProductDetailPage({ $app, initialState, onClick }) {
     }
   };
 
-  const totalPriceRender = () => {
-    const $totalPrice = document.querySelector(".ProductDetail__totalPrice");
-    var calcPrice = 0;
-    this.state.totalPrice.map((item) => (calcPrice += item.price * item.value));
-    $totalPrice.innerHTML = `${calcPrice.toLocaleString()}원`;
-  };
-
   const inputItemRender = ($inputItem) => {
     if (parseInt($inputItem.value) < parseInt($inputItem.min))
       $inputItem.value = $inputItem.min;
@@ -115,6 +104,13 @@ export default function ProductDetailPage({ $app, initialState, onClick }) {
     this.state.totalPrice[index].value = $inputItem.value;
 
     totalPriceRender();
+  };
+
+  const totalPriceRender = () => {
+    const $totalPrice = document.querySelector(".ProductDetail__totalPrice");
+    var calcPrice = 0;
+    this.state.totalPrice.map((item) => (calcPrice += item.price * item.value));
+    $totalPrice.innerHTML = `${calcPrice.toLocaleString()}원`;
   };
 
   this.onClick = onClick;

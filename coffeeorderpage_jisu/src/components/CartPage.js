@@ -43,7 +43,7 @@ export default function CartPage({ $app, initialState, onClick }) {
     setTimeout(() => {
       if (!this.state || this.state.length === 0) {
         alert("장바구니가 비었습니다.");
-        this.onClick(null, null, "/web");
+        this.onClick(null, null, "/web/");
       }
     });
   };
@@ -53,7 +53,7 @@ export default function CartPage({ $app, initialState, onClick }) {
     if ($buttonItem) {
       alert("주문 되었습니다.");
       deleteLocalStorage("products_cart");
-      this.onClick(null, null, "/web");
+      this.onClick(null, null, "/web/");
     }
   });
 }
