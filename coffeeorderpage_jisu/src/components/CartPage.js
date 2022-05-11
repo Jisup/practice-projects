@@ -28,7 +28,7 @@ export default function CartPage({ $app, initialState, onClick }) {
                       ${cart.option.name}
                       ${cart.quantity}개
                     </div>
-                    <div>${totalPrice.toLocaleString()}</div>
+                    <div>${totalPrice.toLocaleString()}원</div>
                   </div>
                 </li>
               `;

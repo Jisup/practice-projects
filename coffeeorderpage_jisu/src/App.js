@@ -11,26 +11,26 @@ export default function App($app) {
   this.init = async () => {
     $app.innerHTML = "";
 
-    const routerData = router();
+    const routeComponent = router();
 
-    let productData = [];
+    let componentData = [];
 
     try {
-      switch (routerData.path) {
+      switch (routeComponent.path) {
         case "/web/":
-          productData = await request();
+          componentData = await request();
           break;
         case "/web/products":
-          productData = await request(history.state);
+          componentData = await request(history.state);
           break;
         case "/web/cart":
-          const cartData = JSON.parse(getLocalStorage("products_cart"));
+          const cartData = getLocalStorage("products_cart");
           await cartData.map(async (cart) => {
             const productInfo = await request({ productId: cart.productId });
             const optionInfo = productInfo.productOptions.find(
               (option) => option.id === cart.optionId
             );
-            productData.push({
+            componentData.push({
               product: productInfo,
               option: optionInfo,
               quantity: cart.quantity,
@@ -42,9 +42,9 @@ export default function App($app) {
       throw new Error(e.message);
     }
 
-    new routerData.route.component({
+    new routeComponent.component({
       $app,
-      initialState: productData,
+      initialState: componentData,
       onClick: (data, unused, url) => {
         this.router(data, unused, url);
       },

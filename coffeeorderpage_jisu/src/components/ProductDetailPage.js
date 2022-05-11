@@ -118,7 +118,7 @@ export default function ProductDetailPage({ $app, initialState, onClick }) {
   const buttonClickEvent = () => {
     const $inputItems = [].slice.call(document.querySelectorAll("input"));
     if ($inputItems) {
-      let cartData = JSON.parse(getLocalStorage("products_cart"));
+      let cartData = getLocalStorage("products_cart");
       cartData = cartData ? cartData : [];
 
       $inputItems.map((inputItem) => {
@@ -143,7 +143,7 @@ export default function ProductDetailPage({ $app, initialState, onClick }) {
         cartData.push(inputData);
       });
 
-      setLocalStorage(JSON.stringify(cartData));
+      setLocalStorage(cartData);
     }
     this.onClick(null, null, "/web/cart");
   };
