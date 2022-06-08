@@ -1,3 +1,10 @@
+# Todo And Done List
+
+react와 reducer에 대한 기본 학습을 전제로 todo and done list를 제작합니다.
+react의 lifeCycle과 hook, reducer의 상태관리 들에 대한 이해를 학습 목표로 잡았습니다.
+
+추가적으로 drag and drop, darkmode 등의 사용성을 높일 수 있는 기능을 추가하는 것이 두번째 목표입니다.
+
 - **[ 주 제 ]**
 
 todo & done 리스트만들기
