@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import "./todo-list.scss";
 
-export default function Todolist({ todoList, deleteTodoList }) {
+export default function TodoList({ todoList, deleteTodoList }) {
   const modifyTodo = (e) => {};
   const deleteTodo = (e) => {
     const $todo = e.target.closest(".todo");
@@ -23,6 +23,7 @@ export default function Todolist({ todoList, deleteTodoList }) {
             <div className="todo-buttons">
               <button onClick={modifyTodo}>수정</button>
               <button onClick={deleteTodo}>삭제</button>
+              <button onClick={deleteTodo}>완료</button>
             </div>
           </div>
         );
