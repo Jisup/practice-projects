@@ -1,17 +1,29 @@
+import "./index.scss";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Route from "./router/route.jsx";
-import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
+
+import reducer from "reducer/index.js";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+
 import reportWebVitals from "./reportWebVitals";
 
+const preloadedState = {};
+const enhancer = applyMiddleware;
+const store = createStore(reducer);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <Provider store={store}>
       <Route />
-    </BrowserRouter>
-  </React.StrictMode>
+    </Provider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
