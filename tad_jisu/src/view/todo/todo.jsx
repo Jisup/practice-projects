@@ -1,12 +1,30 @@
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { getLocalStorage, setLocalStorage } from "lib/localStorage.js";
 
 import "./todo.scss";
 import Todolist from "./components/todo-list.jsx";
+import todoReducer from "reducer/combine/todoReducer";
 
-export default function Todo() {
+function mapStateToProps({ todoReducer }) {
+  return {
+    todoList: todoReducer.todoList,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setTodoList: (payload) => {
+      console.log(payload);
+      dispatch({ type: "SET_TODOLIST", todoList: payload });
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+
+function Todo({ setTodoList }) {
   const [todoWrite, setTodoWrite] = useState("");
-  const [todoList, setTodoList] = useState(getLocalStorage("todolist"));
 
   const changeTodoWrite = ({ target: { value } }) => {
     setTodoWrite(value);
@@ -18,21 +36,10 @@ export default function Todo() {
       todoId: new Date().getTime().toString(36),
       title: todoWrite,
     };
-    setTodoList([todoNewData, ...todoList]);
+    console.log(todoNewData);
+    setTodoList(todoNewData);
     setTodoWrite("");
   };
-
-  const deleteTodoList = (deleteTodoListId) => {
-    const newTodoList = todoList.filter(
-      (todo) => todo.todoId != deleteTodoListId
-    );
-    console.log(newTodoList);
-    setTodoList(newTodoList);
-  };
-
-  useEffect(() => {
-    setLocalStorage(todoList, "todolist");
-  }, [todoList]);
 
   return (
     <div className="todo-component">
@@ -48,7 +55,7 @@ export default function Todo() {
         }}
       ></input>
       <button onClick={addTodoList}>추가</button>
-      <Todolist todoList={todoList} deleteTodoList={deleteTodoList} />
+      <Todolist />
     </div>
   );
 }
