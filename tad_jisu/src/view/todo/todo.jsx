@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getLocalStorage, setLocalStorage } from "lib/localStorage.js";
 
 import "./todo.scss";
 import Todolist from "./components/todo-list.jsx";
 import todoReducer from "reducer/combine/todoReducer";
 
-function mapStateToProps({ todoReducer }) {
+const mapStateToProps = ({ todoReducer }) => {
   return {
     todoList: todoReducer.todoList,
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     setTodoList: (payload) => {
-      console.log(payload);
       dispatch({ type: "SET_TODOLIST", todoList: payload });
     },
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);
 
@@ -31,13 +29,12 @@ function Todo({ setTodoList }) {
   };
 
   const addTodoList = () => {
-    const todoNewData = {
+    const newTodo = {
       // todoId: Math.random().toString(36).substring(2, 11),
       todoId: new Date().getTime().toString(36),
       title: todoWrite,
     };
-    console.log(todoNewData);
-    setTodoList(todoNewData);
+    setTodoList(newTodo);
     setTodoWrite("");
   };
 
