@@ -41,18 +41,22 @@ function Todo({ setTodoList }) {
   return (
     <div className="todo-component">
       <title>Todo List</title>
-      <div className="title">This is Todo list</div>
-      <input
-        type="text"
-        value={todoWrite}
-        placeholder="오늘의 할일!"
-        onChange={changeTodoWrite}
-        onKeyUp={(e) => {
-          if (e.keyCode === 13) addTodoList();
-        }}
-      ></input>
-      <button onClick={addTodoList}>추가</button>
-      <Todolist />
+      <header>
+        <div className="title">This is Todo list</div>
+      </header>
+      <main>
+        <input
+          type="text"
+          value={todoWrite}
+          placeholder="오늘의 할일!"
+          onChange={changeTodoWrite}
+          onKeyUp={(e) => {
+            if (e.keyCode === 13) addTodoList();
+          }}
+        ></input>
+        <button onClick={addTodoList}>추가</button>
+        <Todolist />
+      </main>
     </div>
   );
 }
