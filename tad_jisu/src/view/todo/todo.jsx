@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 
 import "./todo.scss";
 import Todolist from "./components/todo-list.jsx";
+import TodoModal from "./components/todo-modal";
 import todoReducer from "reducer/combine/todoReducer";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
 
 const mapStateToProps = ({ todoReducer }) => {
   return {
@@ -12,51 +17,46 @@ const mapStateToProps = ({ todoReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    setTodoList: (payload) => {
-      dispatch({ type: "SET_TODOLIST", todoList: payload });
-    },
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);
 
-function Todo({ setTodoList }) {
-  const [todoWrite, setTodoWrite] = useState("");
-
-  const changeTodoWrite = ({ target: { value } }) => {
-    setTodoWrite(value);
-  };
-
-  const addTodoList = () => {
-    const newTodo = {
-      // todoId: Math.random().toString(36).substring(2, 11),
-      todoId: new Date().getTime().toString(36),
-      title: todoWrite,
-    };
-    setTodoList(newTodo);
-    setTodoWrite("");
-  };
+function Todo() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
 
   return (
-    <div className="todo-component">
-      <title>Todo List</title>
-      <header>
-        <div className="title">This is Todo list</div>
-      </header>
-      <main>
-        <input
-          type="text"
-          value={todoWrite}
-          placeholder="오늘의 할일!"
-          onChange={changeTodoWrite}
-          onKeyUp={(e) => {
-            if (e.keyCode === 13) addTodoList();
-          }}
-        ></input>
-        <button onClick={addTodoList}>추가</button>
-        <Todolist />
-      </main>
-    </div>
+    <>
+      <div className="todo-component">
+        <title>Todo List</title>
+        <header>
+          <div className="title">This is Todo list</div>
+        </header>
+        <main>
+          <button onClick={handleOpen}>todo추가</button>///
+          <Button onClick={handleOpen}>Open modal</Button>
+          <Modal open={modalOpen} onClose={handleClose}>
+            <Box sx={style}>
+              <TodoModal handleClose={handleClose} />
+            </Box>
+          </Modal>
+          <Todolist />
+        </main>
+      </div>
+    </>
   );
 }
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
