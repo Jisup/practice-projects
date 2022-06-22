@@ -3,7 +3,7 @@ import TodoDetail from "./components/todo-detail.jsx";
 
 import Todo from "./todo.jsx";
 
-export default function TodoIndex({ match, location, history }) {
+export default function TodoIndex() {
   return (
     <>
       <title>Todo Index Page</title>
