@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 import "./todo-modal.scss";
 import todoReducer from "reducer/combine/todoReducer";
-import { useState } from "react";
+import { useState, usetEffect } from "react";
 
 const mapStateToProps = ({ todoReducer }) => {
   return {
@@ -40,6 +40,21 @@ function TodoModal(props, { setTodoList }) {
     setTodoDate(value);
   };
 
+  const addTag = () => {
+    setTodoTagList([...todoTagList, todoTag]);
+    setTodoTag("");
+  };
+
+  const deleteTodoTag = (e) => {
+    const tagItem = e.target.closest("span");
+    if (tagItem) {
+      var { index } = tagItem.dataset;
+      var newTodoTagList = [...todoTagList];
+      newTodoTagList.splice(index, 1);
+      setTodoTagList(newTodoTagList);
+    }
+  };
+
   const addTodoList = () => {
     const newTodo = {
       // todoId: Math.random().toString(36).substring(2, 11),
@@ -53,7 +68,11 @@ function TodoModal(props, { setTodoList }) {
       type: "예정",
       // inComplete -> begin -> going -> complete :: 미완/예정/진행/완료
     };
-    // setTodoList(newTodo);
+    if (!todoTitle || !todoContent || !todoDate) {
+      return;
+    }
+    setTodoList(newTodo);
+    props.handleClose();
   };
 
   return (
@@ -62,35 +81,53 @@ function TodoModal(props, { setTodoList }) {
         props.modalOpen ? "modal-open" : "modal-close"
       }`}
     >
-      {/* 
-        1. 타이틀입력
-        2. 태그입력
-        3. 내용입력
-        4. 시작날짜 및 시간 선택
-        5. 종료날짜 default "0" -> 완료로 옮겨지는 시점에 입력됨
-        6. 미룬날짜 default "0" -> = 오늘 - 시작날짜
-        7. 타입 default "예정"
-        */}
-      <input
-        type="text"
-        value={todoTitle}
-        onChange={handleTitle}
-        placeholder="타이틀"
-      ></input>
-      <input
-        type="text"
-        value={todoTag}
-        onChange={handleTag}
-        placeholder="태그"
-      ></input>
-      <div className="tagList"></div>
-      <textarea
-        value={todoContent}
-        onChange={handleContent}
-        placeholder="내용"
-      ></textarea>
-      <input value={todoDate} onChange={handleDate} type="date"></input>
-      <button onClick={props.handleClose}>추가</button>
+      <div className="todo-modal-create-title">
+        <input
+          type="text"
+          value={todoTitle}
+          onChange={handleTitle}
+          placeholder="타이틀"
+        />
+      </div>
+      <div className="todo-modal-create-tag">
+        <input
+          type="text"
+          value={todoTag}
+          onChange={handleTag}
+          onKeyUp={(e) => {
+            if (e.keyCode === 13) addTag();
+          }}
+          placeholder="태그"
+        />
+      </div>
+      <div className="todo-modal-create-tagList">
+        {todoTagList.map((todoTag, index) => {
+          return (
+            <span className={`todoTag-${index}`} data-index={index} key={index}>
+              {todoTag}
+              <button className="delete-button" onClick={deleteTodoTag}>
+                x
+              </button>
+            </span>
+          );
+        })}
+      </div>
+      <div className="todo-modal-create-content">
+        <textarea
+          value={todoContent}
+          onChange={handleContent}
+          placeholder="내용"
+        />
+      </div>
+      <div className="todo-modal-create-date">
+        <input
+          value={todoDate}
+          onChange={handleDate}
+          type="date"
+          className="todo-modal-create-startDate"
+        />
+      </div>
+      <button onClick={addTodoList}>추가</button>
     </div>
   );
 }

@@ -35,8 +35,7 @@ function Todo() {
           <div className="title">This is Todo list</div>
         </header>
         <main>
-          <button onClick={handleOpen}>todo추가</button>///
-          <Button onClick={handleOpen}>Open modal</Button>
+          <button onClick={handleOpen}>todo추가</button>
           <Modal open={modalOpen} onClose={handleClose}>
             <Box sx={style}>
               <TodoModal handleClose={handleClose} />
