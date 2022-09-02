@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
 
 import "./todo-modal.scss";
 import todoReducer from "reducer/combine/todoReducer";
@@ -10,17 +11,19 @@ const mapStateToProps = ({ todoReducer }) => {
   };
 };
 
+// const setTodoList = (payload) => ({ type: "SET_TODOLIST", todolist: payload });
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    setTodoList: (payload) => {
-      dispatch({ type: "SET_TODOLIST", todolist: payload });
-    },
+    setTodoList: (payload) =>
+      dispatch({ type: "SET_TODOLIST", todoList: payload }),
   };
+  // return bindActionCreators({ setTodoList }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoModal);
 
-function TodoModal(props, { setTodoList }) {
+function TodoModal(props) {
   const [todoTitle, setTodoTitle] = useState("");
   const [todoTag, setTodoTag] = useState("");
   const [todoTagList, setTodoTagList] = useState([]);
@@ -71,7 +74,7 @@ function TodoModal(props, { setTodoList }) {
     if (!todoTitle || !todoContent || !todoDate) {
       return;
     }
-    setTodoList(newTodo);
+    props.setTodoList(newTodo);
     props.handleClose();
   };
 
