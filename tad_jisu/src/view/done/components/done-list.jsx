@@ -16,10 +16,10 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoneList);
 
-function DoneList({ doneList }) {
+function DoneList(props) {
   return (
     <div className="donelist-component">
-      {doneList.map((done, index) => {
+      {props.doneList.map((done, index) => {
         console.log(done, done.todoId, done.tite);
         return (
           <div className="done" data-done-id={done.todoId} key={index}>
