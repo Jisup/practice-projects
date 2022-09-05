@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from "react-router-dom";
 
+import "./App.scss";
 import Login from "./login/login.jsx";
 import TodoIndex from "./todo/index.jsx";
 import Done from "./done/done.jsx";
