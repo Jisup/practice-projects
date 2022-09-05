@@ -40,8 +40,17 @@ function TodoList({
     const $todo = e.target.closest(".todo");
     const { todoId } = $todo.dataset;
     const newDone = todoList.find((todo) => todo.todoId === todoId);
-    setDoneList(newDone);
-    deleteTodoList(todoId);
+    newDone.endDate = new Date()
+      .toLocaleString("ko-KR")
+      .slice(0, 10)
+      .replace(/[.]/g, "-")
+      .replace(/[ ]/g, "0");
+    newDone.outOfDate =
+      (new Date(newDone.endDate) - new Date(newDone.startDate)) /
+      (1000 * 60 * 60 * 24);
+    newDone.type = "완료";
+    // setDoneList(newDone);
+    // deleteTodoList(todoId);
   };
 
   return (
