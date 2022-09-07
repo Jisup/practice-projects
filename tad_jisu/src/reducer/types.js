@@ -1,3 +1,8 @@
+const app = {
+  GET_APPTITLE: "GET_APPTITLE",
+  SET_APPTITLE: "SET_APPTITLE",
+};
+
 const todo = {
   GET_TODOLIST: "GET_TODOLIST",
   SET_TODOLIST: "SET_TODOLIST",
@@ -12,6 +17,7 @@ const done = {
 };
 
 const types = {
+  ...app,
   ...todo,
   ...done,
 };
