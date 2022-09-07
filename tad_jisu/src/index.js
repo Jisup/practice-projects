@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import reducer from "reducer/index.js";
 import App from "./view/App.jsx";
@@ -12,7 +13,7 @@ import reportWebVitals from "./reportWebVitals";
 
 const preloadedState = {};
 const enhancer = applyMiddleware;
-const store = createStore(reducer);
+const store = createStore(reducer, composeWithDevTools());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
