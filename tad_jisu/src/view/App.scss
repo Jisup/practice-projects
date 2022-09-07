@@ -1,68 +1,63 @@
 html {
-  width: 100%;
-  height: 100vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+  height: 100vh;
 }
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border: 1px solid black;
   border-radius: 15px;
 
   width: 25vw;
-  height: 75vh;
+  height: 60vh;
 
   margin: auto;
 }
 
-button {
-  padding: 0.25em 0.75em;
-
-  font-weight: bold;
-  border-radius: 10px;
-
-  transition: 0.25s ease-out;
+@media (max-width: 921px) {
+  #root {
+    width: 100%;
+  }
 }
 
-button:hover {
-  cursor: pointer;
-  transition: 0.25s ease-in;
-}
+.app-components {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
-button[class*="green"] {
-  color: #00c00c;
-  border: 1px solid #00c00c;
-  background-color: white;
-}
+  width: 90%;
+  height: 100%;
+  header {
+    text-align: center;
 
-button[class*="green"]:hover {
-  color: white;
-  background-color: #00c00c;
-}
+    height: 5%;
+    margin-top: 0.75em;
+  }
+  section {
+    width: 100%;
+    height: 60%;
+  }
+  footer {
+    text-align: center;
 
-button[class*="red"] {
-  color: #ee0000;
-  border: 1px solid #ee0000;
-  background-color: white;
-}
-
-button[class*="red"]:hover {
-  color: white;
-  background-color: #ee0000;
-}
-
-button[class*="black"] {
-  color: black;
-  border: 1px solid black;
-  background-color: white;
-  transition: none;
-}
-
-button[class*="black"]:hover {
-  color: white;
-  border: 1px solid white;
-  background-color: black;
-  transition: none;
+    height: 5%;
+    margin-bottom: 0.75em;
+  }
 }
