@@ -1,8 +1,20 @@
+import { useEffect } from "react";
+import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./login.scss";
 
-export default function Login() {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAppTitle: (payload) =>
+      dispatch({ type: "SET_APPTITLE", appTitle: payload }),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);
+
+function Login(props) {
   const navigate = useNavigate();
+
   const userLogin = () => {
     navigate("/login");
   };
@@ -10,6 +22,10 @@ export default function Login() {
   const userRegist = () => {
     navigate("/regist");
   };
+
+  useEffect(() => {
+    props.setAppTitle("Todo and Done List");
+  }, []);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
 
 import "./App.scss";
 import Login from "./login/login.jsx";
@@ -7,28 +8,21 @@ import LoginSuccess from "./login/login-success.jsx";
 import TodoIndex from "./todo/index.jsx";
 import Done from "./done/done.jsx";
 
-export default function App() {
-  const location = useLocation();
-  const [title, setTitle] = useState("");
+const mapStateToProps = ({ appReducer }) => {
+  return {
+    appTitle: appReducer.appTitle,
+  };
+};
 
-  useEffect(() => {
-    const { pathname } = location;
-    var tempTitle = "";
-    switch (pathname) {
-      case "/":
-        tempTitle = "Todo and Done List";
-        break;
-      case "/login":
-        tempTitle = "오늘은 어떤 일을?";
-        break;
-    }
-    setTitle(tempTitle);
-  }, [location.pathname]);
+export default connect(mapStateToProps, null)(App);
+
+function App(props) {
+  const location = useLocation();
 
   return (
     <div className="app-components">
       <title>Todo and Done List</title>
-      <header className="title">{title}</header>
+      <header className="title">{props.appTitle}</header>
       <section>
         <Routes>
           <Route exact path="/" element={<Login />}></Route>
