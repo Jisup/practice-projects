@@ -1,12 +1,18 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function TodoDetail() {
+import "./todo-detail.scss";
+
+import TodoList from "../components/todo-list.jsx";
+import { useEffect } from "react";
+
+export default function TodoDetail(props) {
   let params = useParams();
-  let location = useLocation();
-  console.log(params, location);
+
   return (
     <div className="todo-detail-components">
-      <div>여기는 {params.id}번 방입니다</div>
+      <label>오늘 해야할 일...</label>
+      <hr></hr>
+      <TodoList startDate={params.startDate} />
     </div>
   );
 }

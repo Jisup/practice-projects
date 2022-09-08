@@ -11,8 +11,7 @@ const mapStateToProps = ({ todoReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getTodoList: (todoId) => dispatch({ type: "GET_TODOLIST", todoId }),
-    modifyTodoList: () => dispatch({ type: "MOD_TODOLIST" }),
-    deleteTodoList: (todoId) => {
+    delTodoList: (todoId) => {
       dispatch({ type: "DEL_TODOLIST", todoId });
     },
     setDoneList: (doneList) => {
@@ -23,23 +22,19 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
 
-function TodoList({
-  todoList,
-  getTodoList,
-  modifyTodoList,
-  deleteTodoList,
-  setDoneList,
-}) {
+function TodoList(props) {
+  const [todayTodoList, setTodayTodoList] = useState([]);
+
   const clickDelete = (e) => {
     const $todo = e.target.closest(".todo");
     const { todoId } = $todo.dataset;
-    deleteTodoList(todoId);
+    props.delTodoList(todoId);
   };
 
   const clickComplete = (e) => {
     const $todo = e.target.closest(".todo");
     const { todoId } = $todo.dataset;
-    const newDone = todoList.find((todo) => todo.todoId === todoId);
+    const newDone = props.todoList.find((todo) => todo.todoId === todoId);
     newDone.endDate = new Date()
       .toLocaleString("ko-KR")
       .slice(0, 10)
@@ -49,13 +44,19 @@ function TodoList({
       (new Date(newDone.endDate) - new Date(newDone.startDate)) /
       (1000 * 60 * 60 * 24);
     newDone.type = "완료";
-    // setDoneList(newDone);
-    // deleteTodoList(todoId);
+    props.setDoneList(newDone);
+    props.delTodoList(todoId);
   };
+
+  useEffect(() => {
+    setTodayTodoList(
+      props.todoList.filter((todo) => todo.startDate == props.startDate)
+    );
+  }, [props.startDate]);
 
   return (
     <div className="todolist-component">
-      {todoList.map((todo, index) => {
+      {todayTodoList.map((todo, index) => {
         return (
           <div className="todo" data-todo-id={todo.todoId} key={index}>
             <div className="todo-title">{todo.title}</div>

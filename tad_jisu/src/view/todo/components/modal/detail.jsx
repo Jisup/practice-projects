@@ -71,10 +71,6 @@ function Detail(props) {
       type: "예정",
       // inComplete -> begin -> going -> complete :: 미완/예정/진행/완료
     };
-    if (!todoTitle || !todoContent || !todoDate) {
-      return;
-    }
-    console.log(props);
     props.setTodoList(newTodo);
     props.handleClose();
   };
