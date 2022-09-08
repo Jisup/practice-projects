@@ -3,6 +3,10 @@
   font-weight: bold;
 }
 
+label {
+  font-size: 10px;
+}
+
 button {
   padding: 0.25em 0.75em;
 
@@ -62,4 +66,8 @@ button[class*="black"]:hover {
   border: 1px solid white;
   background-color: black;
   transition: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
