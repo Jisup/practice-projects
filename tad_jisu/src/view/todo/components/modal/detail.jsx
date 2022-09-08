@@ -82,7 +82,7 @@ function Detail(props) {
   return (
     <div className="todo-detail-modal">
       <div className="create-title">
-        <label>
+        <label htmlFor="title">
           타이틀<span>(*필수)</span>
         </label>
         <input
@@ -94,8 +94,9 @@ function Detail(props) {
         />
       </div>
       <div className="create-tag">
-        <label>태그</label>
+        <label htmlFor="tag">태그</label>
         <input
+          id="tag"
           type="text"
           value={todoTag}
           onChange={handleTag}
@@ -123,7 +124,7 @@ function Detail(props) {
         ) : null}
       </div>
       <div className="create-content">
-        <label>내용</label>
+        <label htmlFor="contents">내용</label>
         <textarea
           id="contents"
           value={todoContent}
@@ -132,7 +133,7 @@ function Detail(props) {
         />
       </div>
       <div className="create-date">
-        <label>
+        <label htmlFor="date">
           날짜<span>(*필수)</span>
         </label>
         <input

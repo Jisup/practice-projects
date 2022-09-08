@@ -32,11 +32,11 @@ function Login(props) {
       <div className="login-components">
         <form>
           <div className="login-id">
-            <label for="id">아이디</label>
+            <label htmlFor="id">아이디</label>
             <input type="text" id="id" placeholder="아이디"></input>
           </div>
           <div className="login-password">
-            <label for="password">비밀번호</label>
+            <label htmlFor="password">비밀번호</label>
             <input type="password" id="password" placeholder="비밀번호"></input>
           </div>
         </form>
