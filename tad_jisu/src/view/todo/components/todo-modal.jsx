@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 
 import "./todo-modal.scss";
 import todoReducer from "reducer/combine/todoReducer";
-import Simple from "./modal/simple.jsx";
-import Detail from "./modal/detail.jsx";
+import Simple from "./modal/make-simple.jsx";
+import Detail from "./modal/make-detail.jsx";
 
 const mapStateToProps = ({ todoReducer }) => {
   return {

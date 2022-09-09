@@ -2,7 +2,7 @@ import { useState } from "react";
 import { connect } from "react-redux";
 // import { bindActionCreators } from "redux";
 
-import "./detail.scss";
+import "./make-detail.scss";
 import todoReducer from "reducer/combine/todoReducer";
 
 const mapStateToProps = ({ todoReducer }) => {
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default connect(mapStateToProps, mapDispatchToProps)(MakeDetail);
 
-function Detail(props) {
+function MakeDetail(props) {
   const [todoTitle, setTodoTitle] = useState("");
   const [todoTag, setTodoTag] = useState("");
   const [todoTagList, setTodoTagList] = useState([]);
@@ -68,7 +68,8 @@ function Detail(props) {
       startDate: todoDate,
       endDate: "",
       outOfDate: 0,
-      type: "예정",
+      actionType: "예정",
+      makeType: "detail",
       // inComplete -> begin -> going -> complete :: 미완/예정/진행/완료
     };
     props.setTodoList(newTodo);

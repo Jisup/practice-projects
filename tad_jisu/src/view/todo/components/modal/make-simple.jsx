@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 
-import "./simple.scss";
+import "./make-simple.scss";
 import todoReducer from "reducer/combine/todoReducer";
 
 const mapStateToProps = ({ todoReducer }) => {
