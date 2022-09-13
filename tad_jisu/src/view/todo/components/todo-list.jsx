@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 
 import "./todo-list.scss";
-import todoReducer from "reducer/combine/todoReducer";
+
+import { getFullDate } from "lib/getTime";
 
 const mapStateToProps = ({ todoReducer }) => {
   return { todoList: todoReducer.todoList };
@@ -35,24 +36,20 @@ function TodoList(props) {
     const $todo = e.target.closest(".todo");
     const { todoId } = $todo.dataset;
     const newDone = props.todoList.find((todo) => todo.todoId === todoId);
-    newDone.endDate = new Date()
-      .toLocaleString("ko-KR")
-      .slice(0, 10)
-      .replace(/[.]/g, "-")
-      .replace(/[ ]/g, "0");
+    newDone.endDate = getFullDate();
     newDone.outOfDate =
       (new Date(newDone.endDate) - new Date(newDone.startDate)) /
       (1000 * 60 * 60 * 24);
-    newDone.type = "완료";
+    newDone.actionType = "완료";
     props.setDoneList(newDone);
     props.delTodoList(todoId);
   };
 
   useEffect(() => {
     setTodayTodoList(
-      props.todoList.filter((todo) => todo.startDate == props.startDate)
+      props.todoList.filter((todo) => todo.startDate === props.startDate)
     );
-  }, [props.startDate]);
+  }, [props.startDate, props.todoList]);
 
   return (
     <div className="todolist-component">

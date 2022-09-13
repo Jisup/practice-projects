@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { getFullDate } from "lib/getTime.js";
 
 import TodoDetail from "./components/todo-detail.jsx";
 import TodoModal from "./components/todo-modal.jsx";
-import todoReducer from "reducer/combine/todoReducer";
 
 import "./index.scss";
 
@@ -39,21 +39,15 @@ function TodoIndex(props) {
   };
 
   useEffect(() => {
-    setNowDate(
-      new Date()
-        .toLocaleString()
-        .slice(0, 10)
-        .replace(/[.]/g, "-")
-        .replace(/[ ]/g, "0")
-    );
+    setNowDate(getFullDate());
     props.setAppTitle(
       `오늘은 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일~!`
     );
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     navigate(nowDate);
-  }, [nowDate]);
+  }, [nowDate, navigate]);
 
   return (
     <>
@@ -76,7 +70,7 @@ function TodoIndex(props) {
         <button onClick={() => clickMakeButton(true)}>🐇 쉽게</button>
         <button onClick={() => clickMakeButton(false)}>🥕 자세하게</button>
         <Modal open={modalOpen} onClose={handleClose}>
-          <Box sx={style}>
+          <Box className="modal-box">
             <TodoModal type={modalType} handleClose={handleClose} />
           </Box>
         </Modal>
@@ -84,15 +78,3 @@ function TodoIndex(props) {
     </>
   );
 }
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "25%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
