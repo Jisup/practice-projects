@@ -1,0 +1,40 @@
+.todo-modal-components {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  * {
+    margin: 0.25em 0;
+  }
+  [class*="create"] {
+    text-align: left;
+
+    p {
+      font-size: 9px;
+    }
+    label {
+      font-size: 10px;
+    }
+    span {
+      color: red;
+      font-size: 9px;
+    }
+    textarea {
+      resize: none;
+      height: 125px;
+    }
+
+    .info {
+      display: flex;
+      font-size: 9px;
+      color: gray;
+    }
+  }
+
+  input,
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
