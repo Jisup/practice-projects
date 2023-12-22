@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_start/screen/home_screen.dart';
+import 'package:flutter_start/widget/bottom_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,12 +19,19 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: "JisuFlix",
       theme: ThemeData(brightness: Brightness.dark, primaryColor: Colors.black),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("JisuFlixButton"),
-        ),
-        body: Container(
-          child: Text("hello"),
+      home: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              HomeScreen(),
+              Container(child: Center(child: Text("search"))),
+              Container(child: Center(child: Text("save"))),
+              Container(child: Center(child: Text("more"))),
+            ],
+          ),
+          bottomNavigationBar: BottomBar(),
         ),
       ),
     );
