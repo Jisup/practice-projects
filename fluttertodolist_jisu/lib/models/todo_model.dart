@@ -1,20 +1,27 @@
 class Todo {
-  final int id;
-  final String work;
-  bool check;
+  int? id;
+  String? work;
+  bool? check;
 
-  Todo.fromMap(Map<String, dynamic> map)
-      : id = map["id"],
-        work = map["work"],
-        check = map["check"];
+  Todo({this.id, this.work, this.check});
 
-  void changeCheck(bool value) {
-    check = value;
+  Todo.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    work = json['work'];
+    check = json['check'];
   }
 
-  @override
-  String toString() {
-    // TODO: implement toString
-    return "Todo<$id, $work, $check>";
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['work'] = work;
+    data['check'] = check;
+    return data;
   }
+
+  Todo copyWith({int? id, String? work, bool? check}) => Todo(
+        id: id ?? this.id,
+        work: work ?? this.work,
+        check: check ?? this.check,
+      );
 }
