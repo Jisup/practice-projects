@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_todolist/models/todo_model.dart';
 import 'package:flutter_todolist/provider/todo_provider.dart';
-import 'package:flutter_todolist/screens/todo/todo_input.dart';
 import 'package:flutter_todolist/util/enum.dart';
 
 final todoFilterListProvider = Provider<List<Todo>>((ref) {
@@ -31,50 +30,45 @@ class TodoList extends ConsumerWidget {
     var todoList = ref.watch(todoFilterListProvider);
     var todoList_notifier = ref.watch(todoListProvider.notifier);
 
-    return todoListFilter == TodoListFilter.input
-        ? TodoInput()
-        : Container(
-            width: media_width * 0.1,
-            margin: EdgeInsets.only(top: 5),
-            child: ListView(
-                scrollDirection: Axis.vertical,
-                children: todoList
-                    .map((todo) => Container(
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value: todo.check,
-                                checkColor: Colors.white,
-                                activeColor: Colors.blue,
-                                onChanged: (bool? value) =>
-                                    todoList_notifier.updateTodoList(todo.id!),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 5,
-                                      color: todo.check!
-                                          ? Colors.blue
-                                          : Colors.black26,
-                                    ),
-                                    // color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Text(
-                                    todo.work!,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ))
-                    .toList()),
-          );
+    // TODO: implement build
+    return Container(
+      margin: EdgeInsets.only(top: 5),
+      child: Column(
+        children: todoList
+            .map(
+              (todo) => Row(
+                children: [
+                  Checkbox(
+                    value: todo.check,
+                    checkColor: Colors.white,
+                    activeColor: Colors.blue,
+                    onChanged: (bool? value) =>
+                        todoList_notifier.updateTodoList(todo.id!),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 5,
+                          color: todo.check ? Colors.blue : Colors.black26,
+                        ),
+                        // color: Colors.blue,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        todo.work!,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 }

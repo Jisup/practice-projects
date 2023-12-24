@@ -1,9 +1,9 @@
 class Todo {
   int? id;
   String? work;
-  bool? check;
+  late bool check;
 
-  Todo({this.id, this.work, this.check});
+  Todo({this.id, this.work, required this.check});
 
   Todo.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -5,7 +5,7 @@ import 'package:flutter_todolist/util/enum.dart';
 final todoListProvider =
     NotifierProvider<TodoNotifier, List<Todo>>(TodoNotifier.new);
 
-final todoListFilter = StateProvider((_) => TodoListFilter.all);
+final todoListFilter = StateProvider((_) => TodoListFilter.input);
 
 class TodoNotifier extends Notifier<List<Todo>> {
   final id = StateProvider((_) => 5);
@@ -63,7 +63,7 @@ class TodoNotifier extends Notifier<List<Todo>> {
   void updateTodoList(int todoId) {
     state = [
       for (final todo in state)
-        todo.id == todoId ? todo.copyWith(check: false) : todo
+        todo.id == todoId ? todo.copyWith(check: !todo.check) : todo
     ];
   }
 }
