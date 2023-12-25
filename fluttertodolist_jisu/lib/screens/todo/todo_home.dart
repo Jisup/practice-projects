@@ -43,7 +43,7 @@ class TodoHome extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              filter.convertToText,
+                              filter.convertToString,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 12),
                             ),

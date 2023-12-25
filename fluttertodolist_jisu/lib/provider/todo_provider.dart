@@ -42,7 +42,10 @@ class TodoNotifier extends Notifier<List<Todo>> {
   }
 
   void addTodo(String work) {
-    state = [...state, Todo(id: ref.watch(id), work: work, check: false)];
+    state = [
+      ...state,
+      Todo(id: ref.watch(id.notifier).state, work: work, check: false)
+    ];
     ref.watch(id.notifier).update((state) => state + 1);
   }
 
